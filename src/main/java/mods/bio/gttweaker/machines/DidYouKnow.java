@@ -10,6 +10,8 @@ import mods.bio.gttweaker.AddMultipleRecipeAction;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.Arrays;
+
 import static gregapi.data.CS.ZL_FS;
 import static gregapi.data.CS.ZL_LONG;
 
@@ -18,21 +20,30 @@ import static gregapi.data.CS.ZL_LONG;
 public class DidYouKnow {
 	@ZenMethod
 	public static void addRecipe(IItemStack output, IIngredient input1, IIngredient input2) {
-		MineTweakerAPI.apply(
-				new AddMultipleRecipeAction(
-						"Adding Fake Recipe " + output,
-						input1,
-						input2,
-						output
-						//, durationTicks,
-						//euPerTick
-				) {
+		addRecipe(new IItemStack[]{output}, new IIngredient[]{input1, input2});
+	}
 
-					@Override
-					protected void applySingleRecipe(ArgIterator i) {
-						RM.DidYouKnow.addFakeRecipe(false, ST.array(i.nextItem(),i.nextItem()),ST.array(i.nextItem()),null,ZL_LONG,ZL_FS,ZL_FS,0,0,0);
-								//.add(i.nextItem(), i.nextItem(), i.nextItem(), i.nextInt(), i.nextInt());
-					}
-				});
+	@ZenMethod
+	public static void addRecipe(IItemStack output, IIngredient input1){
+		addRecipe(output,input1);
+	}
+
+	@ZenMethod
+	public static void addRecipe(IItemStack[] output, IIngredient[] input1){
+		MineTweakerAPI.apply(
+		new AddMultipleRecipeAction(
+				"Adding Fake Recipe " + Arrays.toString(output),
+				input1,
+				output
+				//, durationTicks,
+				//euPerTick
+		) {
+
+			@Override
+			protected void applySingleRecipe(ArgIterator i) {
+				RM.DidYouKnow.addFakeRecipe(true, i.nextItemArr(),i.nextItemArr(),null,ZL_LONG,ZL_FS,ZL_FS,0,0,0);
+				//.add(i.nextItem(), i.nextItem(), i.nextItem(), i.nextInt(), i.nextInt());
+			}
+		});
 	}
 }

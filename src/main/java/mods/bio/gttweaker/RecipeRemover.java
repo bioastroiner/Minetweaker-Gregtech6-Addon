@@ -5,6 +5,7 @@ import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
+import minetweaker.api.liquid.ILiquidStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -19,6 +20,14 @@ import java.util.stream.Collectors;
 @ZenClass("mods.gregtech.RecipeRemover")
 @ModOnly("gregtech")
 public class RecipeRemover {
+
+	public static void remove(String map, IIngredient[] inputs){
+		remove(map,inputs,null);
+	}
+
+	public static void remove(String map, ILiquidStack[] inputs){
+		remove(map,null,inputs);
+	}
 
 	@ZenMethod
 	public static void remove(String map, IIngredient[] inputs, IIngredient[] fluidInputs) {
