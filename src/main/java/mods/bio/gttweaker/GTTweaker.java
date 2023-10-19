@@ -9,7 +9,7 @@ import gregapi.player.EntityFoodTracker;
 import gregapi.util.ST;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
-import mods.bio.gttweaker.data.GTData;
+import mods.bio.gttweaker.data.*;
 import mods.bio.gttweaker.machines.DidYouKnow;
 import mods.bio.gttweaker.machines.Recipes;
 import net.minecraft.item.ItemStack;
@@ -97,7 +97,10 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(RecipeRemover.class);
 		MineTweakerAPI.registerClass(Recipes.class);
 		MineTweakerAPI.registerClass(GTData.class);
-
+		MineTweakerAPI.registerBracketHandler(new MaterialBracketHandler());
+		MineTweakerAPI.registerClass(IMaterial.class);
+		MineTweakerAPI.registerClass(IPrefix.class);
+		MineTweakerAPI.registerBracketHandler(new PrefixBracketHandler());
 	}
 
 	@Override
