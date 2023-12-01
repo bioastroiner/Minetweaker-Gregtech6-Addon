@@ -1,8 +1,16 @@
 package mods.bio.gttweaker;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import gregapi.data.CS;
+import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictPrefix;
+import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
+import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
+import minetweaker.api.player.IPlayer;
+import minetweaker.api.server.ICommandFunction;
+import mods.bio.gttweaker.command.GTCommand;
 import mods.bio.gttweaker.recipe.CTRecipe;
 import mods.bio.gttweaker.recipe.CTRecipeFactory;
 import mods.bio.gttweaker.recipe.CTRecipeMap;
@@ -10,6 +18,8 @@ import mods.bio.gttweaker.recipe.CTRecipeMaps;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.Objects;
 
 @cpw.mods.fml.common.Mod(modid = mods.bio.gttweaker.GTTweaker.MOD_ID, name = mods.bio.gttweaker.GTTweaker.MOD_NAME, version = mods.bio.gttweaker.GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
@@ -101,7 +111,9 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTRecipeFactory.class);
 		MineTweakerAPI.registerClass(CTRecipeMap.class);
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
-	}
+
+		MineTweakerImplementationAPI.addMineTweakerCommand("gt6", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
+		};
 
 	@Override
 	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {
