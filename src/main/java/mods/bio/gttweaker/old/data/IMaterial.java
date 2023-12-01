@@ -1,8 +1,9 @@
-package mods.bio.gttweaker.data;
+package mods.bio.gttweaker.old.data;
 
 import gregapi.oredict.OreDictMaterial;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
@@ -30,10 +31,10 @@ public interface IMaterial {
 	/**
 	 * @return an Item with an specefic prefix, for oredict refer to {ore}
 	 */
-	@ZenMethod("prefix")
+	@ZenMethod("item")
 	public IItemStack getItemWithPrefix(String prefix);
 
-	@ZenMethod("prefix")
+	@ZenMethod("ore")
 	public IOreDictEntry getItemWithPrefix(IPrefix prefix);
 
 	/**
@@ -51,6 +52,16 @@ public interface IMaterial {
 	/**
 	 * @return a list of all the ores countained within this material that means all the prefixes it has
 	 */
-	@ZenGetter("all")
+	@ZenGetter("ores")
 	public IOreDictEntry[] getOreDicts();
+
+	@ZenGetter("fluid")
+	public ILiquidStack getFluid();
+
+	@ZenGetter("liquid")
+	public default ILiquidStack getFluid2() {return getFluid();}
+	@ZenGetter("plasma")
+	public ILiquidStack getPlasma();
+	@ZenGetter("gas")
+	public ILiquidStack getGas();
 }

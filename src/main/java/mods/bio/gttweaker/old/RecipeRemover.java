@@ -1,4 +1,4 @@
-package mods.bio.gttweaker;
+package mods.bio.gttweaker.old;
 
 import gregapi.recipes.Recipe;
 import minetweaker.IUndoableAction;
@@ -6,6 +6,7 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.liquid.ILiquidStack;
+import mods.bio.gttweaker.GTTweaker;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;

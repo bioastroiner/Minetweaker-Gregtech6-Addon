@@ -1,11 +1,13 @@
-package mods.bio.gttweaker.data;
+package mods.bio.gttweaker.old.data;
 
+import gregapi.data.OD;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import gregapi.oredict.event.IOreDictListenerRecyclable;
 import gregapi.util.OM;
+import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
@@ -18,15 +20,23 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass("mods.gregtech.Data")
 @ModOnly("grgetech")
 public class GTData {
-//	@ZenMethod
-//	public static void data(IItemStack item) {
-//		OM.data(MineTweakerMC.getItemStack(item));
-//	}
+	@ZenMethod
+	public static void data(IItemStack item,OreDictItemData data) {
+		OM.data(MineTweakerMC.getItemStack(item),data);
+	}
+
+	@ZenMethod()
+	public static IItemStack prefixMaterial(String prefix,String material) {
+		var pfx = OreDictPrefix.get(prefix);
+		if (pfx == null) MineTweakerAPI.logWarning("ERROR: " + prefix + " Is Invalid!");
+		assert pfx != null;
+		return MineTweakerMC.getIItemStack(pfx.mat(OreDictMaterial.get(material), 1));
+	}
 
 	@ZenMethod
 	public static void removeAll(IItemStack item) {
 		var om = OreDictManager.INSTANCE.getItemData((MineTweakerMC.getItemStack(item)));
-		OreDictItemData.
+		OreDictManager.INSTANCE.setItemData(MineTweakerMC.getItemStack(item), new OreDictItemData());
 	}
 
 	@ZenMethod

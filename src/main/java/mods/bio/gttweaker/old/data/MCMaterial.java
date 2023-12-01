@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.data;
+package mods.bio.gttweaker.old.data;
 
 import gregapi.code.ItemStackContainer;
 import gregapi.data.MT;
@@ -6,8 +6,10 @@ import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
+import minetweaker.mc1710.liquid.MCLiquidStack;
 
 import java.util.stream.Collectors;
 
@@ -100,5 +102,20 @@ public class MCMaterial implements IMaterial {
 	@Override
 	public IOreDictEntry[] getOreDicts() {
 		return (IOreDictEntry[]) OreDictPrefix.VALUES_SORTED.stream().map(p -> getOreDictWithPrefix(p.mNameInternal)).toArray();
+	}
+
+	@Override
+	public ILiquidStack getFluid() {
+		return new MCLiquidStack(getMaterial().mLiquid);
+	}
+
+	@Override
+	public ILiquidStack getPlasma() {
+		return new MCLiquidStack(getMaterial().mPlasma);
+	}
+
+	@Override
+	public ILiquidStack getGas() {
+		return new MCLiquidStack(getMaterial().mGas);
 	}
 }

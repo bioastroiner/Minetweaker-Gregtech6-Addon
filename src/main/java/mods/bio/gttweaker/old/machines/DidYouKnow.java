@@ -1,12 +1,11 @@
-package mods.bio.gttweaker.machines;
+package mods.bio.gttweaker.old.machines;
 
 import gregapi.data.RM;
-import gregapi.util.ST;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
-import mods.bio.gttweaker.AddMultipleRecipeAction;
+import mods.bio.gttweaker.old.AddMultipleRecipeAction;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

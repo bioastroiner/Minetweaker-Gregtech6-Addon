@@ -1,12 +1,10 @@
-package mods.bio.gttweaker.machines;
+package mods.bio.gttweaker.old.machines;
 
-import gregapi.data.FL;
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
-import mods.bio.gttweaker.AddMultipleRecipeAction;
-import net.minecraft.item.ItemStack;
+import mods.bio.gttweaker.old.AddMultipleRecipeAction;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -17,8 +15,16 @@ import static gregapi.data.CS.*;
 @ZenClass("mods.gregtech.Recipes")
 @ModOnly("gregtech")
 public class Recipes {
+
+	public static void addRecipe(Recipe.RecipeMap recipeMap){
+
+	}
+
 	@ZenMethod
 	public static void addRecipe(String map,IIngredient[] output,IIngredient[] input,int duration,int eu){
+		if(!map.startsWith("gt.recipe.")) map = "gt.recipe."+map;
+		map = map.toLowerCase();
+		map.replace(" ","");
 		addRecipe(map,output,input,ZL_INTEGER,duration,eu);
 	}
 	@ZenMethod
@@ -42,6 +48,7 @@ public class Recipes {
 		if (inputs         .length > recipeMap.mInputItemsCount                          ) {MineTweakerAPI.logWarning("ERROR: Recipe from" + map+" has more than the maximum amount of Input ItemStacks!"    ); tFailed = T;}
 		if (inputsF    .length > recipeMap.mInputFluidCount                          ) {MineTweakerAPI.logWarning("ERROR: Recipe from" + map+" has more than the maximum amount of Input FluidStacks!"   ); tFailed = T;}
 		if(tFailed) return;
+
 		MineTweakerAPI.apply(
 				new AddMultipleRecipeAction(
 						"Adding Recipe " + Arrays.toString(output),
@@ -52,7 +59,7 @@ public class Recipes {
 
 					@Override
 					protected void applySingleRecipe(ArgIterator i) {
-						Recipe aRecipe = recipeMap.addRecipe(true, i.nextItemArr(),i.nextItemArr(),null,Arrays.stream(i.nextIntArr()).asLongStream().toArray(),ZL_FS,ZL_FS,i.nextInt(),i.nextInt(),0);
+						Recipe aRecipe = recipeMap.addRecipe(true, i.nextItemArr(),i.nextItemArr(),null,Arrays.stream(i.nextIntArr()).asLongStream().toArray(),i.nextFluidArr(),i.nextFluidArr(),i.nextInt(),i.nextInt(),0);
 
 					}
 				});

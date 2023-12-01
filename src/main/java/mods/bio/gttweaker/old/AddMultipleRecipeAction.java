@@ -1,4 +1,4 @@
-package mods.bio.gttweaker;
+package mods.bio.gttweaker.old;
 
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;

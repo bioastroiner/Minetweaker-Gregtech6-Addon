@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.data;
+package mods.bio.gttweaker.old.data;
 
 import minetweaker.IBracketHandler;
 import minetweaker.annotations.BracketHandler;

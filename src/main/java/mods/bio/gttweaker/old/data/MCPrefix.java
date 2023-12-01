@@ -1,7 +1,6 @@
-package mods.bio.gttweaker.data;
+package mods.bio.gttweaker.old.data;
 
 import gregapi.data.OP;
-import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictPrefix;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.oredict.IOreDictEntry;
