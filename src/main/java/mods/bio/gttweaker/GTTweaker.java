@@ -87,14 +87,6 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 	@Override
 	public void onModInit2(FMLInitializationEvent aEvent) {
-		MineTweakerAPI.registerClass(DidYouKnow.class);
-		MineTweakerAPI.registerClass(RecipeRemover.class);
-		MineTweakerAPI.registerClass(Recipes.class);
-		MineTweakerAPI.registerClass(GTData.class);
-		MineTweakerAPI.registerBracketHandler(new MaterialBracketHandler());
-		MineTweakerAPI.registerClass(IMaterial.class);
-		MineTweakerAPI.registerClass(IPrefix.class);
-		MineTweakerAPI.registerBracketHandler(new PrefixBracketHandler());
 //		MineTweakerAPI.registerClass(DidYouKnow.class);
 //		MineTweakerAPI.registerClass(RecipeRemover.class);
 //		MineTweakerAPI.registerClass(Recipes.class);
@@ -104,6 +96,10 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 //		MineTweakerAPI.registerClass(IPrefix.class);
 //		MineTweakerAPI.registerBracketHandler(new PrefixBracketHandler());
 //		MineTweakerAPI.registerClass(Builder.class);
+		MineTweakerAPI.registerClass(CTRecipe.class);
+		MineTweakerAPI.registerClass(CTRecipeFactory.class);
+		MineTweakerAPI.registerClass(CTRecipeMap.class);
+		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 	}
 
 	@Override
