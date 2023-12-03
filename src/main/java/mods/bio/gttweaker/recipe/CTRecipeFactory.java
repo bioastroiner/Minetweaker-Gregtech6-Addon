@@ -1,6 +1,5 @@
 package mods.bio.gttweaker.recipe;
 
-import gregapi.data.IL;
 import gregapi.recipes.Recipe;
 import gregapi.util.ST;
 import minetweaker.MineTweakerAPI;
@@ -124,60 +123,62 @@ public class CTRecipeFactory {
 	@ZenMethod
 	public CTRecipe build() {
 		Recipe built;
+		if (checkIO()) return null;
+		long[] chance = new long[chanced.size()];
+		for (int i = 0; i < chanced.size(); i++) {
+			chance[i] = chanced.get(i);
+		}
+		built = new Recipe(T,T,inputs.toArray(new ItemStack[0]),outputs.toArray(new ItemStack[0]),null,chance,inputsFluid.toArray(new FluidStack[0]),outputsFluid.toArray(new FluidStack[0]),duration,energy,special_value);
+		return new CTRecipe(built);
+	}
 
+	private boolean checkIO() {
 		if(inputs.size() > recipeMap.mInputItemsCount){
 			MineTweakerAPI.logError(
 					"INPUT ITEMS COUNT MUST BE =< THAN {" +  recipeMap.mInputItemsCount + "}"
 			);
-			return null;
+			return true;
 		}
 		if(outputs.size() > recipeMap.mOutputItemsCount){
 			MineTweakerAPI.logError(
 					"OUTPUT ITEMS COUNT MUST BE =< THAN {" +  recipeMap.mOutputItemsCount + "}"
 			);
-			return null;
+			return true;
 		}
 		if(inputs.size() < recipeMap.mMinimalInputItems){
 			MineTweakerAPI.logError(
 					"INPUT ITEMS COUNT MUST BE > THAN {" +  recipeMap.mMinimalInputItems + "}"
 			);
-			return null;
+			return true;
 		}
 		if(recipeMap.mNeedsOutputs && (outputs.isEmpty() && outputsFluid.isEmpty())){
 			MineTweakerAPI.logError("OUTPUT ITEMS MUST BE > 0");
-			return null;
+			return true;
 		}
 
 		if(inputsFluid.size() > recipeMap.mInputFluidCount){
 			MineTweakerAPI.logError(
 					"INPUT FLUID COUNT MUST BE =< THAN {" +  recipeMap.mInputItemsCount + "}"
 			);
-			return null;
+			return true;
 		}
 		if(outputsFluid.size() > recipeMap.mOutputFluidCount){
 			MineTweakerAPI.logError(
 					"OUTPUT FLUID COUNT MUST BE =< THAN {" +  recipeMap.mOutputItemsCount + "}"
 			);
-			return null;
+			return true;
 		}
 		if(inputsFluid.size() < recipeMap.mMinimalInputFluids){
 			MineTweakerAPI.logError(
 					"INPUT FLUID COUNT MUST BE > THAN {" +  recipeMap.mMinimalInputItems + "}"
 			);
-			return null;
+			return true;
 		}
 		if(recipeMap.mNeedsOutputs && (outputs.isEmpty() && outputsFluid.isEmpty())){
 			MineTweakerAPI.logError("OUTPUT (FLUID+ITEM) MUST BE > 0");
-			return null;
+			return true;
 		}
-
-		long[] chance = new long[chanced.size()];
-		for (int i = 0; i < chanced.size(); i++) {
-			chance[i] = chanced.get(i);
-		}
-
-		built = new Recipe(T,T,inputs.toArray(ItemStack[]::new),outputs.toArray(ItemStack[]::new),null,chance,inputsFluid.toArray(FluidStack[]::new),outputsFluid.toArray(FluidStack[]::new),duration,energy,special_value);
-		return new CTRecipe(built);
+		return false;
 	}
 
 	@ZenMethod
