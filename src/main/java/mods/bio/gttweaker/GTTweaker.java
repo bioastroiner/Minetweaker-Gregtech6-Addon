@@ -162,6 +162,7 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 				} else MineTweakerAPI.logWarning("No GT Recipes added detected!");
 				MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
 				// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
+				Recipe.reInit();
 			}
 		});
 		};
