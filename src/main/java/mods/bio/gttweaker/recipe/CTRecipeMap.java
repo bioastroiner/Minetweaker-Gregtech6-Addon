@@ -61,12 +61,16 @@ public class CTRecipeMap {
 		return recipe == null ? null : new CTRecipe(recipe);
 	}
 
+	/**
+	 * Remover dose not remove on Reload!!! but it hides and disables the recipes so do not worry.
+	 */
 	@ZenMethod
 	@Optional.Method(
 			modid = "MineTweaker3"
 	)
+	//FIXME remover
 	public boolean remove(CTRecipe recipe) {
-		if(recipe==null) {
+		if (recipe == null) {
 			MineTweakerAPI.logWarning("Recipe " + recipe.toString() + " was not found and was not removed.");
 			return true;
 		}
