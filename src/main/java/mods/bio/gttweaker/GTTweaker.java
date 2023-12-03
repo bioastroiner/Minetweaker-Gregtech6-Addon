@@ -5,10 +5,7 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import mods.bio.gttweaker.command.GTCommand;
-import mods.bio.gttweaker.recipe.CTRecipe;
-import mods.bio.gttweaker.recipe.CTRecipeFactory;
-import mods.bio.gttweaker.recipe.CTRecipeMap;
-import mods.bio.gttweaker.recipe.CTRecipeMaps;
+import mods.bio.gttweaker.recipe.*;
 import mods.bio.gttweaker.recipe.bracket.CTRecipeMapBracketHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -93,15 +90,6 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 	@Override
 	public void onModInit2(FMLInitializationEvent aEvent) {
-//		MineTweakerAPI.registerClass(DidYouKnow.class);
-//		MineTweakerAPI.registerClass(RecipeRemover.class);
-//		MineTweakerAPI.registerClass(Recipes.class);
-//		MineTweakerAPI.registerClass(GTData.class);
-//		MineTweakerAPI.registerBracketHandler(new MaterialBracketHandler());
-//		MineTweakerAPI.registerClass(IMaterial.class);
-//		MineTweakerAPI.registerClass(IPrefix.class);
-//		MineTweakerAPI.registerBracketHandler(new PrefixBracketHandler());
-//		MineTweakerAPI.registerClass(Builder.class);
 		MineTweakerAPI.registerClass(CTRecipe.class);
 		MineTweakerAPI.registerClass(CTRecipeFactory.class);
 		MineTweakerAPI.registerClass(CTRecipeMap.class);
@@ -109,6 +97,20 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerImplementationAPI.addMineTweakerCommand("gt6", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
+
+		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
+			@Override
+			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
+
+			}
+		});
+		MineTweakerImplementationAPI.onReloadEvent(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
+			@Override
+			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
+				MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
+				// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
+			}
+		});
 		};
 
 	@Override
