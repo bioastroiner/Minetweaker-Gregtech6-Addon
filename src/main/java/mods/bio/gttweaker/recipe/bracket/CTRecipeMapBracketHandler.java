@@ -5,8 +5,8 @@ import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
+import mods.bio.gttweaker.GTTweaker;
 import mods.bio.gttweaker.recipe.CTRecipeMap;
-import mods.bio.gttweaker.recipe.CTRecipeMaps;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
 import stanhebben.zenscript.expression.ExpressionString;
@@ -23,10 +23,13 @@ import java.util.List;
 public class CTRecipeMapBracketHandler implements IBracketHandler {
 
 	public static CTRecipeMap getRM(String name){
-		if(Recipe.RecipeMap.RECIPE_MAPS.containsKey(name.toLowerCase()))
-			return CTRecipeMaps.getRecipeMap(name.toLowerCase());
-		MineTweakerAPI.logError("ERROR AT PROCESSING BRACKET HANDLER: " + "<recipemap:" +name + ">");
-		MineTweakerAPI.logError("No Such Recipe Map for: " + name +". Returning NULL");
+		Recipe.RecipeMap out = GTTweaker.FORMAT_RECIPE_MAP(name);
+		if(out!=null){
+			return new CTRecipeMap(out);
+		} else {
+			MineTweakerAPI.logError("------- ERROR AT PROCESSING BRACKET HANDLER: " + "<recipemap:" +name + ">");
+			MineTweakerAPI.logError("--- No Such Recipe Map for: " + name +". Returning NULL");
+		}
 		return null;
 	}
 

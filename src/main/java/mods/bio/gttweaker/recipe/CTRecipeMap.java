@@ -6,6 +6,7 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import mods.bio.gttweaker.GTTweaker;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -21,15 +22,26 @@ import static gregapi.data.CS.*;
 @ZenClass("mods.gregtech.recipe.RecipeMap")
 public class CTRecipeMap {
 	public final Recipe.RecipeMap backingRecipeMap;
+	public final String name,nameInternal;
 	public CTRecipeMap(Recipe.RecipeMap mapIn){
 		backingRecipeMap = mapIn;
+		nameInternal = mapIn.mNameInternal;
+		name = GTTweaker.FORMAT_RECIPE_MAP(mapIn);
 	}
 	@ZenMethod("name")
 	@Optional.Method(
 			modid = "MineTweaker3"
 	)
 	public String getName(){
-		return backingRecipeMap.mNameInternal;
+		return name;
+	}
+
+	@ZenMethod("nameInternal")
+	@Optional.Method(
+			modid = "MineTweaker3"
+	)
+	public String getNameInternal(){
+		return nameInternal;
 	}
 
 	@ZenMethod("getRecipes")
@@ -58,6 +70,10 @@ public class CTRecipeMap {
 			MineTweakerAPI.logWarning("Recipe " + recipe.toString() + " was not found and was not removed.");
 			return true;
 		}
+		if (backingRecipeMap.mRecipeList.contains(recipe))
+			MineTweakerAPI.logError(recipe + " was not removed. WHY");
+		recipe.backingRecipe.mHidden = true;
+		recipe.backingRecipe.mEnabled = false;
 		boolean ret = backingRecipeMap.mRecipeList.remove(recipe);
 		backingRecipeMap.mRecipeItemMap.entrySet()
 				.stream()
@@ -78,6 +94,15 @@ public class CTRecipeMap {
 				.collect(Collectors.toSet())
 				.forEach(backingRecipeMap.mRecipeFluidMap::remove);
 		return ret;
+	}
+
+	@ZenMethod
+	@Optional.Method(
+			modid = "MineTweaker3"
+	)
+	public void add(CTRecipe recipe) {
+		MineTweakerAPI.logCommand("adding " + recipe + " to" + this);
+		backingRecipeMap.addRecipe(recipe.backingRecipe);
 	}
 
 	@ZenMethod("factory")
@@ -135,6 +160,11 @@ public class CTRecipeMap {
 			modid = "MineTweaker3"
 	)
 	public void registerCT(CTRecipe recipe) {
-		backingRecipeMap.add(recipe.backingRecipe);
+		add(recipe);
+	}
+
+	@Override
+	public String toString() {
+		return "<recipe:" + name + ">";
 	}
 }

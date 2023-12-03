@@ -27,6 +27,28 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	//@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
 	public static gregapi.api.Abstract_Proxy PROXY;
 
+	public static String FORMAT_RECIPE_MAP(Recipe.RecipeMap map){
+		String[] tmp = map.toString().split("\\.");
+		return tmp[tmp.length-1];
+	}
+
+	public static Recipe.RecipeMap FORMAT_RECIPE_MAP(String name){
+		Recipe.RecipeMap out = null;
+		for (Recipe.RecipeMap map: Recipe.RecipeMap.RECIPE_MAP_LIST) {
+			String[] tmp = map.toString().split("\\.");
+			String sName = tmp[tmp.length-1];
+			if(Objects.equals(sName.toLowerCase(),name.toLowerCase())){
+				out = map;
+			}
+		}
+		if(out!=null){
+			return out;
+		} else {
+			MineTweakerAPI.logError(name + " is not a valid recipemap name!");
+		}
+		return out;
+	}
+
 	public GTTweaker() {
 	}
 
