@@ -1,9 +1,11 @@
 package mods.bio.gttweaker;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
+import minetweaker.util.IEventHandler;
 import mods.bio.gttweaker.command.GTCommand;
 import mods.bio.gttweaker.recipe.*;
 import mods.bio.gttweaker.recipe.bracket.CTRecipeMapBracketHandler;
@@ -96,7 +98,6 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
-		MineTweakerImplementationAPI.addMineTweakerCommand("gt6", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
 
 		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
 			@Override
@@ -104,9 +105,39 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 			}
 		});
+
+		// this happens right before the scripts get loaded so its safe here to remove the pervios added recipes
 		MineTweakerImplementationAPI.onReloadEvent(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
 			@Override
 			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
+				if(!CTRecipeFactory.ADDED_RECIPES.isEmpty()){
+					//MineTweakerAPI.logWarning("GT Recipes addition detected!!");
+					//List<Map.Entry<Recipe, Recipe.RecipeMap>> REMOVED = new ArrayList<>();
+					//MineTweakerAPI.logWarning(CTRecipeFactory.ADDED_RECIPES.size() + " recipes scheduled for removal... (HIDDEN)");
+					CTRecipeFactory.ADDED_RECIPES.forEach(e->{
+						e.getKey().mHidden = true; // HACK
+						e.getKey().mEnabled = false;
+						MineTweakerAPI.logCommand(e.getKey() + " has been Hidden due to reloading");
+//						if(new CTRecipeMap(e.getValue()).remove(new CTRecipe(e.getKey()))) {
+//							// cool
+//							REMOVED.add(e);
+//						} else {
+//							MineTweakerAPI.logWarning(e.getKey() + " could not be removed from " + e.getValue());
+//							MineTweakerAPI.logWarning("it has therefore STUCK! please reload the game entirely to fix.");
+//						}
+					});
+					CTRecipeFactory.ADDED_RECIPES.clear();
+//					REMOVED.forEach(e->{
+//						for (Map.Entry<Recipe, Recipe.RecipeMap> x:CTRecipeFactory.ADDED_RECIPES) {
+//							if(x==e){
+//								CTRecipeFactory.ADDED_RECIPES.remove(x);
+//								break;
+//							}
+//						}
+//					});
+//					MineTweakerAPI.logWarning(REMOVED.size() + " recipes have been swipped!");
+//					MineTweakerAPI.logWarning(CTRecipeFactory.ADDED_RECIPES.size() + " have been stuck! if this is anything other than 0 then its NOT GOOD!!!!");
+				} else MineTweakerAPI.logWarning("No GT Recipes added detected!");
 				MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
 				// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
 			}
