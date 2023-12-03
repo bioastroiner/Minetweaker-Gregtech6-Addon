@@ -106,6 +106,7 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTRecipeFactory.class);
 		MineTweakerAPI.registerClass(CTRecipeMap.class);
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
+		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerImplementationAPI.addMineTweakerCommand("gt6", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
 		};

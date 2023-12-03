@@ -11,14 +11,15 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import static gregapi.data.CS.T;
 
-@ZenClass("mods.gregtech.recipe.RecipeMaps")
+@ZenClass("mods.gregtech.item.Unifier")
+// TODO: Zen Expansion for IOreDict#unify
 public class CTUnifier {
-	@ZenMethod
+	@ZenMethod("unify")
 	public static IItemStack unifyItem(IOreDictEntry ore){
 		return MineTweakerMC.getIItemStack(OreDictManager.INSTANCE.getStack(ore.getName(),ore.getAmount()));
 	}
 
-	@ZenMethod
+	@ZenMethod("unify")
 	public static IItemStack unifyItem(IItemStack stack){
 		return MineTweakerMC.getIItemStack(OreDictManager.INSTANCE.getStack(T,MineTweakerMC.getItemStack(stack)));
 	}
