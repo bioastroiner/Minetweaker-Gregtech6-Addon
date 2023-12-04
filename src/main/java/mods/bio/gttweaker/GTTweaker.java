@@ -7,8 +7,11 @@ import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
 import mods.bio.gttweaker.command.GTCommand;
+import mods.bio.gttweaker.oredict.CTMaterial;
 import mods.bio.gttweaker.recipe.*;
 import mods.bio.gttweaker.recipe.bracket.CTRecipeMapBracketHandler;
+import mods.bio.gttweaker.oredict.CTIOreDictExpansion;
+import mods.bio.gttweaker.oredict.CTUnifier;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -119,6 +122,8 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTRecipeMap.class);
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 		MineTweakerAPI.registerClass(CTUnifier.class);
+		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
+		MineTweakerAPI.registerClass(CTMaterial.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 
 		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {

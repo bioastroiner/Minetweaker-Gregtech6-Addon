@@ -11,7 +11,9 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import static gregapi.data.CS.T;
 
-@ZenClass("mods.gregtech.item.Unifier")
+import static gregapi.data.CS.*;
+
+@ZenClass("mods.gregtech.oredict.Unifier")
 // TODO: Zen Expansion for IOreDict#unify
 public class CTUnifier {
 	@ZenMethod("unify")
@@ -20,8 +22,8 @@ public class CTUnifier {
 	}
 
 	@ZenMethod("unify")
-	public static IItemStack unifyItem(IItemStack stack){
-		return MineTweakerMC.getIItemStack(OreDictManager.INSTANCE.getStack(T,MineTweakerMC.getItemStack(stack)));
+	public static IItemStack unifyItem(IItemStack stack) {
+		return MineTweakerMC.getIItemStack(OreDictManager.INSTANCE.getStack(T, MineTweakerMC.getItemStack(stack)));
 	}
 
 }
