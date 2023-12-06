@@ -171,4 +171,17 @@ public class CTRecipeMap {
 	public String toString() {
 		return "<recipe:" + name + ">";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof CTRecipeMap){
+			return backingRecipeMap == ((CTRecipeMap) obj).backingRecipeMap;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(backingRecipeMap);
+	}
 }
