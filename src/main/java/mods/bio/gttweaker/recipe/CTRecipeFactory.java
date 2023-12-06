@@ -3,9 +3,12 @@ package mods.bio.gttweaker.recipe;
 import gregapi.recipes.Recipe;
 import gregapi.util.ST;
 import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.oredict.IOreDictEntry;
+import mods.bio.gttweaker.oredict.CTIOreDictExpansion;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -17,8 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static gregapi.data.CS.F;
-import static gregapi.data.CS.T;
+import static gregapi.data.CS.*;
 
 @ZenClass("mods.gregtech.recipe.RecipeFactory")
 public class CTRecipeFactory {
@@ -44,12 +46,14 @@ public class CTRecipeFactory {
 
 	@ZenMethod
 	public CTRecipeFactory EUt(int energy) {
+		MineTweakerAPI.logCommand("setting EUt: " + energy + "... ");
 		this.energy = energy;
 		return this;
 	}
 
 	@ZenMethod
 	public CTRecipeFactory duration(int ticks) {
+		MineTweakerAPI.logCommand("setting duration: " + ticks + "... ");
 		duration = ticks;
 		return this;
 	}
@@ -73,6 +77,7 @@ public class CTRecipeFactory {
 
 	@ZenMethod
 	public CTRecipeFactory input(IItemStack input) {
+		MineTweakerAPI.logCommand("adding Input " + input + "... ");
 		inputs.add(MineTweakerMC.getItemStack(input));
 		return this;
 	}
@@ -83,20 +88,22 @@ public class CTRecipeFactory {
 		return this;
 	}
 
-	@ZenMethod
-	public CTRecipeFactory fluidInput(ILiquidStack fluid) {
-		inputsFluid.add(MineTweakerMC.getLiquidStack(fluid));
+	@ZenMethod("inputFluid")
+	public CTRecipeFactory fluidInput(ILiquidStack input) {
+		MineTweakerAPI.logCommand("adding Input " + input + "... ");
+		inputsFluid.add(MineTweakerMC.getLiquidStack(input));
 		return this;
 	}
 
-	@ZenMethod
-	public CTRecipeFactory fluidInputs(ILiquidStack... fluids) {
-		Arrays.stream(fluids).forEach(this::fluidInput);
+	@ZenMethod("inputFluids")
+	public CTRecipeFactory fluidInputs(ILiquidStack... inputs) {
+		Arrays.stream(inputs).forEach(this::fluidInput);
 		return this;
 	}
 
 	@ZenMethod
 	public CTRecipeFactory output(IItemStack output) {
+		MineTweakerAPI.logCommand("adding Output " + output + "... ");
 		outputs.add(MineTweakerMC.getItemStack(output));
 		return this;
 	}
@@ -114,15 +121,38 @@ public class CTRecipeFactory {
 		return this;
 	}
 
-	@ZenMethod
-	public CTRecipeFactory fluidOutput(ILiquidStack fluid) {
-		outputsFluid.add(MineTweakerMC.getLiquidStack(fluid));
+	@ZenMethod("outputFluid")
+	public CTRecipeFactory fluidOutput(ILiquidStack output) {
+		MineTweakerAPI.logCommand("adding Output " + output + "... ");
+		outputsFluid.add(MineTweakerMC.getLiquidStack(output));
+		return this;
+	}
+
+	@ZenMethod("outputFluids")
+	public CTRecipeFactory fluidOutputs(ILiquidStack... fluids) {
+		Arrays.stream(fluids).forEach(this::fluidOutput);
 		return this;
 	}
 
 	@ZenMethod
-	public CTRecipeFactory fluidOutputs(ILiquidStack... fluids) {
-		Arrays.stream(fluids).forEach(this::fluidOutput);
+	public CTRecipeFactory input(IIngredient ingredient){
+		if(ingredient instanceof IItemStack){
+			return input((IItemStack) ingredient);
+		} else if (ingredient instanceof IOreDictEntry){
+			return input(CTIOreDictExpansion.unify((IOreDictEntry) ingredient));
+		} else if(ingredient instanceof ILiquidStack){
+			return fluidInput((ILiquidStack) ingredient);
+		}
+		MineTweakerAPI.logError(ingredient + " is not a valid Ingredient!");
+		return this;
+	}
+
+	public CTRecipeFactory inputs(IIngredient... ingredients){
+		if(ingredients == null || ingredients.length < 1)
+			MineTweakerAPI.logError(Arrays.toString(ingredients) + " is invalid! please provide more than 0 arguments");
+		else for (IIngredient ingredient:ingredients) {
+			input(ingredient);
+		}
 		return this;
 	}
 
