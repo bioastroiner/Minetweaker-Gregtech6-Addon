@@ -83,7 +83,9 @@ public class GTCommand implements ICommandFunction {
 
 	private static void RECIPE_MAPS(String[] arguments, IPlayer player) {
 		// FIXME dosent work
-		if(Objects.equals(arguments[0].toLowerCase(), "recipemaps") || Objects.equals(arguments[0].toLowerCase(), "rm")){
+		if(Objects.equals(arguments[0].toLowerCase(), "recipemaps") ||
+				Objects.equals(arguments[0].toLowerCase(), "recipemap") ||
+				Objects.equals(arguments[0].toLowerCase(), "rm")){
 			//rms are 3:
 			// gt.recipe.<>
 			// gt.fuel.<>

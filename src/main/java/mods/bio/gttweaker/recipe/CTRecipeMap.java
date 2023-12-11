@@ -22,18 +22,18 @@ import static gregapi.data.CS.*;
 @ZenClass("mods.gregtech.recipe.RecipeMap")
 public class CTRecipeMap {
 	public final Recipe.RecipeMap backingRecipeMap;
-	public final String name,nameInternal;
+	public final String nameShort,nameInternal;
 	public CTRecipeMap(Recipe.RecipeMap mapIn){
 		backingRecipeMap = mapIn;
 		nameInternal = mapIn.mNameInternal;
-		name = GTTweaker.FORMAT_RECIPE_MAP(mapIn);
+		nameShort = GTTweaker.FORMAT_RECIPE_MAP(mapIn);
 	}
 	@ZenMethod("name")
 	@Optional.Method(
 			modid = "MineTweaker3"
 	)
-	public String getName(){
-		return name;
+	public String getNameShort(){
+		return nameShort;
 	}
 
 	@ZenMethod("nameInternal")
@@ -167,9 +167,12 @@ public class CTRecipeMap {
 		add(recipe);
 	}
 
+	/**
+	 * @return formatted string as it is formatted in bracketHandler
+	 */
 	@Override
 	public String toString() {
-		return "<recipe:" + name + ">";
+		return String.format("<recipemap:%s>",nameInternal);
 	}
 
 	@Override

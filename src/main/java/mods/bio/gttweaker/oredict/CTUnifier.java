@@ -1,6 +1,7 @@
 package mods.bio.gttweaker.oredict;
 
 import gregapi.code.ItemStackContainer;
+import gregapi.data.CS;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
@@ -94,6 +95,12 @@ public class CTUnifier {
 		if(removeItemData(MineTweakerMC.getItemStack(aStack),aMaterial.material_internal))
 			return T;
 		MineTweakerAPI.logError(aMaterial + " was not removed from " + aStack); return F;
+	}
+
+	public static boolean add(IItemStack aStack, CTMaterial aMaterial, float aAmount){
+		new OreDictMaterialStack(aMaterial.material_internal,(long)(U * aAmount));
+
+		return T;
 	}
 }
 
