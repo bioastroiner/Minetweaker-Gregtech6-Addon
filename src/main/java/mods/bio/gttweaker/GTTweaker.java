@@ -127,7 +127,10 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
 		MineTweakerAPI.registerClass(CTMaterial.class);
+		MineTweakerAPI.registerClass(CTPrefix.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
+		MineTweakerAPI.registerBracketHandler(new CTPrefixBracketHandler());
+		MineTweakerAPI.registerBracketHandler(new CTMaterialBracketHandler());
 
 		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
 			@Override

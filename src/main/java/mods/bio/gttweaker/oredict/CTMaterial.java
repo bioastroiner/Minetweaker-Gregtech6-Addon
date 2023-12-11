@@ -17,11 +17,12 @@ public class CTMaterial {
 		material_internal = aMaterial;
 	}
 
+	/**
+	 * @return formatted string as it is formatted in bracketHandler
+	 */
 	@Override
 	public String toString() {
-		return "CTMaterial{" +
-				"name=" + material_internal.mNameInternal +
-				'}';
+		return String.format("<material:%s>",material_internal.mNameInternal);
 	}
 
 	@Override
