@@ -16,4 +16,14 @@ public class CTIOreDictExpansion {
 	public static CTMaterial material(IOreDictEntry oreDictEntry){
 		return new CTMaterial(OreDictManager.INSTANCE.getAutomaticItemData(oreDictEntry.getName()).mMaterial.mMaterial);
 	}
+
+	@ZenGetter
+	public static CTPrefix prefix(IOreDictEntry oreDictEntry){
+		return new CTPrefix(OreDictManager.INSTANCE.getAutomaticItemData(oreDictEntry.getName()).mPrefix);
+	}
+
+	@ZenGetter
+	public static long amount(IOreDictEntry oreDictEntry){
+		return prefix(oreDictEntry).amount();
+	}
 }
