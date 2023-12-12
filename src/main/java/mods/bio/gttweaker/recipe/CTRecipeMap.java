@@ -61,6 +61,30 @@ public class CTRecipeMap {
 		return recipe == null ? null : new CTRecipe(recipe);
 	}
 
+	@ZenMethod("removeRecipe")
+	@Optional.Method(
+			modid = "MineTweaker3"
+	)
+	public boolean removeRecipeCT(IItemStack[] itemsIn) {
+		return removeRecipeCT(itemsIn, null);
+	}
+
+	@ZenMethod("removeRecipe")
+	@Optional.Method(
+			modid = "MineTweaker3"
+	)
+	public boolean removeRecipeCT(ILiquidStack[] liquidsIn) {
+		return removeRecipeCT(null, liquidsIn);
+	}
+
+	@ZenMethod("removeRecipe")
+	@Optional.Method(
+			modid = "MineTweaker3"
+	)
+	public boolean removeRecipeCT(IItemStack[] itemsIn, ILiquidStack[] liquidsIn){
+		return remove(findRecipeCT(itemsIn,liquidsIn));
+	}
+
 	/**
 	 * Remover dose not remove on Reload!!! but it hides and disables the recipes so do not worry.
 	 */
@@ -71,32 +95,35 @@ public class CTRecipeMap {
 	//FIXME remover
 	public boolean remove(CTRecipe recipe) {
 		if (recipe == null) {
-			MineTweakerAPI.logWarning("Recipe " + recipe.toString() + " was not found and was not removed.");
+			MineTweakerAPI.logWarning("NULL recipe was tried to be removed!!!");
 			return true;
 		}
-		if (backingRecipeMap.mRecipeList.contains(recipe))
-			MineTweakerAPI.logError(recipe + " was not removed. WHY");
+//		if (backingRecipeMap.mRecipeList.contains(recipe.backingRecipe))
+//			MineTweakerAPI.logError(recipe + " was not removed. WHY");
 		recipe.backingRecipe.mHidden = true;
 		recipe.backingRecipe.mEnabled = false;
-		boolean ret = backingRecipeMap.mRecipeList.remove(recipe);
-		backingRecipeMap.mRecipeItemMap.entrySet()
-				.stream()
-				.filter(
-						e -> e.getValue()
-								.removeIf(r -> r == recipe.backingRecipe)
-								&& e.getValue().isEmpty())
-				.map(Map.Entry::getKey)
-				.collect(Collectors.toSet())
-				.forEach(backingRecipeMap.mRecipeItemMap::remove);
-		backingRecipeMap.mRecipeFluidMap.entrySet()
-				.stream()
-				.filter(
-						e -> e.getValue()
-								.removeIf(r -> r == recipe.backingRecipe)
-								&& e.getValue().isEmpty())
-				.map(Map.Entry::getKey)
-				.collect(Collectors.toSet())
-				.forEach(backingRecipeMap.mRecipeFluidMap::remove);
+		boolean ret = backingRecipeMap.mRecipeList.remove(recipe.backingRecipe);
+		if(!ret) MineTweakerAPI.logError(String.format("Recipe: %s \nwas not Removed from %s RecipeMap!",recipe,this));
+		else {
+			backingRecipeMap.mRecipeItemMap.entrySet()
+					.stream()
+					.filter(
+							e -> e.getValue()
+									.removeIf(r -> r == recipe.backingRecipe)
+									&& e.getValue().isEmpty())
+					.map(Map.Entry::getKey)
+					.collect(Collectors.toSet())
+					.forEach(backingRecipeMap.mRecipeItemMap::remove);
+			backingRecipeMap.mRecipeFluidMap.entrySet()
+					.stream()
+					.filter(
+							e -> e.getValue()
+									.removeIf(r -> r == recipe.backingRecipe)
+									&& e.getValue().isEmpty())
+					.map(Map.Entry::getKey)
+					.collect(Collectors.toSet())
+					.forEach(backingRecipeMap.mRecipeFluidMap::remove);
+		}
 		return ret;
 	}
 

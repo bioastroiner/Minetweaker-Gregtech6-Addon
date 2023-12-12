@@ -9,6 +9,8 @@ import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import mods.bio.gttweaker.oredict.CTIOreDictExpansion;
+import mods.bio.gttweaker.oredict.CTMaterial;
+import mods.bio.gttweaker.oredict.CTPrefix;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -73,6 +75,26 @@ public class CTRecipeFactory {
 	public CTRecipeFactory specialValue(int config) {
 		special_value = config;
 		return this;
+	}
+
+	@ZenMethod
+	public CTRecipeFactory input(CTPrefix aPrefix, CTMaterial aMaterial) {
+		return input(aPrefix, aMaterial, 1);
+	}
+
+	@ZenMethod
+	public CTRecipeFactory input(CTPrefix aPrefix, CTMaterial aMaterial,int aAmount) {
+		return input(aPrefix.withMaterial(aMaterial).amount(aAmount));
+	}
+
+	@ZenMethod
+	public CTRecipeFactory output(CTPrefix aPrefix, CTMaterial aMaterial) {
+		return output(aPrefix, aMaterial, 1);
+	}
+
+	@ZenMethod
+	public CTRecipeFactory output(CTPrefix aPrefix, CTMaterial aMaterial,int aAmount) {
+		return output(aPrefix.withMaterial(aMaterial).amount(aAmount));
 	}
 
 	@ZenMethod

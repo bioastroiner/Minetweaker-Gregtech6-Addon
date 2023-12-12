@@ -53,6 +53,18 @@ public class CTPrefix {
 	/*      METHODS     */
 
 	@ZenMethod
+	public IItemStack withMaterial(CTMaterial aMaterial){
+		IItemStack aStack = MineTweakerMC.getIItemStack(prefix_internal.mat(aMaterial.material_internal,1));
+		if(aStack==null) MineTweakerAPI.logError(String.format("%s dose not return a valid Item in %s.",aMaterial,this));
+		return aStack;
+	}
+
+	@ZenMethod
+	public IItemStack mat(CTMaterial aMaterial){
+		return withMaterial(aMaterial);
+	}
+
+	@ZenMethod
 	public CTPrefix disableItemGeneration(){
 		prefix_internal.disableItemGeneration();
 		MineTweakerAPI.logInfo(String.format("ItemGeneration for %s has been disabled.", this));

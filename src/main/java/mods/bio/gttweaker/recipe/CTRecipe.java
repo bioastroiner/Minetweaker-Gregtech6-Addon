@@ -60,6 +60,10 @@ public class CTRecipe {
 		return Arrays.stream(this.backingRecipe.mFluidInputs).map(MCLiquidStack::new).collect(Collectors.toList());
 	}
 
+	public boolean remove(CTRecipeMap recipeMap){
+		return recipeMap.remove(this);
+	}
+
 	public String toString() {
 		return String.format("Recipe(EUt=%d, duration=%d, enabled=%s)\nin=%s\nout=%s\nfluidIn=%s\nfluidOut=%s\nspecial_value=%s", backingRecipe.mEUt, backingRecipe.mDuration, backingRecipe.mEnabled, backingRecipe.mInputs.toString(), backingRecipe.mOutputs.toString(), backingRecipe.mFluidInputs.toString(), backingRecipe.getFluidOutputs().toString(), backingRecipe.mSpecialValue);
 	}
