@@ -11,25 +11,27 @@ public class OreDictMaterial_Serializable {
 	public final transient OreDictMaterial _mat;
 
 	public static void _INITLIZE(){
-		// skip 0 = Empty
-		long milis = System.currentTimeMillis();
-		File materials_folder = new File("gt_materials");
-		materials_folder.mkdir();
-		for (int i = 1; i < OreDictMaterial.MATERIAL_ARRAY.length; i++) {
-			try {
-				if (OreDictMaterial.MATERIAL_ARRAY[i]==null) continue;
-				File toWrite = new File(materials_folder,String.format("%d.json",i));
-				if(toWrite.exists()) toWrite.delete();
-				toWrite.createNewFile();
-				FileWriter writer = new FileWriter(toWrite);
-				writer.write(OreDictMaterial_Serializable.serializeMaterial(OreDictMaterial.MATERIAL_ARRAY[i]));
-				writer.close();
-				System.out.println((String.format("Material with ID %d was Serialized Successfuly.",i)));
-			} catch (Exception ig){
-				ig.printStackTrace();
-			}
-		}
-		System.out.println(String.format("It took %d Seconds to generate the JSON Materials for Gregtech 6!",System.currentTimeMillis() - milis));
+		//TODO: we dont do anything yet...
+//
+//		// skip 0 = Empty
+//		long milis = System.currentTimeMillis();
+//		File materials_folder = new File("gt_materials");
+//		materials_folder.mkdir();
+//		for (int i = 1; i < OreDictMaterial.MATERIAL_ARRAY.length; i++) {
+//			try {
+//				if (OreDictMaterial.MATERIAL_ARRAY[i]==null) continue;
+//				File toWrite = new File(materials_folder,String.format("%d.json",i));
+//				if(toWrite.exists()) toWrite.delete();
+//				toWrite.createNewFile();
+//				FileWriter writer = new FileWriter(toWrite);
+//				writer.write(OreDictMaterial_Serializable.serializeMaterial(OreDictMaterial.MATERIAL_ARRAY[i]));
+//				writer.close();
+//				System.out.println((String.format("Material with ID %d was Serialized Successfuly.",i)));
+//			} catch (Exception ig){
+//				ig.printStackTrace();
+//			}
+//		}
+//		System.out.println(String.format("It took %d Seconds to generate the JSON Materials for Gregtech 6!",System.currentTimeMillis() - milis));
 
 	}
 	private transient short mID;
