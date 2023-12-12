@@ -9,3 +9,5 @@ it can also be retrived by multiplying a Material by a number.
 ```zs
 <material:gold>.amount(0.5); // 2 small dusts
 ```
+
+# For Now There is no way of adding materials using zs soon i will add feature for that if needed
