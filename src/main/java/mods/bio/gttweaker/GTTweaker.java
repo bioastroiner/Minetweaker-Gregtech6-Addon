@@ -1,40 +1,21 @@
 package mods.bio.gttweaker;
 
-import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import gregapi.NEI_GT_API_Config;
-import gregapi.data.CS;
-import gregapi.data.MT;
-import gregapi.oredict.OreDictMaterial;
 import gregapi.recipes.Recipe;
-import gregapi.util.UT;
-import io.netty.util.internal.logging.Log4JLoggerFactory;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
 import mods.bio.gttweaker.command.GTCommand;
-import mods.bio.gttweaker.oredict.CTMaterial;
-import mods.bio.gttweaker.oredict.CTPrefix;
+import mods.bio.gttweaker.oredict.*;
 import mods.bio.gttweaker.oredict.bracket.CTMaterialBracketHandler;
 import mods.bio.gttweaker.oredict.bracket.CTPrefixBracketHandler;
 import mods.bio.gttweaker.recipe.*;
 import mods.bio.gttweaker.recipe.bracket.CTRecipeMapBracketHandler;
-import mods.bio.gttweaker.oredict.CTIOreDictExpansion;
-import mods.bio.gttweaker.oredict.CTUnifier;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.logging.impl.Log4JLogger;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 @cpw.mods.fml.common.Mod(modid = mods.bio.gttweaker.GTTweaker.MOD_ID, name = mods.bio.gttweaker.GTTweaker.MOD_NAME, version = mods.bio.gttweaker.GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
@@ -145,6 +126,7 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
+		MineTweakerAPI.registerClass(CTIItemStackExpansion.class);
 		MineTweakerAPI.registerClass(CTMaterial.class);
 		MineTweakerAPI.registerClass(CTPrefix.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
