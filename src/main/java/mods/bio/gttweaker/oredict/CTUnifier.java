@@ -12,6 +12,7 @@ import minetweaker.api.oredict.IOreDictEntry;
 import mods.bio.gttweaker.recipe.CTRecipeMap;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.HashMap;
@@ -23,6 +24,11 @@ import static gregapi.data.CS.*;
 // TODO: Zen Expansion for IOreDict#unify
 public class CTUnifier {
 	public static final Map<ItemStackContainer, OreDictItemData> REMOVED_DATA = new HashMap<>();
+
+	@ZenGetter
+	public static long U() {
+		return U;
+	}
 
 	@ZenMethod("unify")
 	public static IItemStack unifyItem(IOreDictEntry ore) {

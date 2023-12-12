@@ -11,6 +11,8 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.ICommandFunction;
+import mods.bio.gttweaker.oredict.CTMaterial;
+import mods.bio.gttweaker.oredict.CTPrefix;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
@@ -54,8 +56,8 @@ public class GTCommand implements ICommandFunction {
 				if(data!=null){
 					List<String> list = new ArrayList<>();
 					list.add("=============================");
-					list.add("== OP: " + data.mPrefix);
-					list.add("== MT: "+ data.mMaterial);
+					list.add("== OP: " + new CTPrefix(data.mPrefix));
+					list.add("== MT: "+ new CTMaterial(data.mMaterial.mMaterial));
 					list.add("== UNI: " + MineTweakerMC.getIItemStack(data.getStack(1)));
 					list.add("** MineTweaker **");
 					list.add("== IOreDict: <ore:"+data +">");
