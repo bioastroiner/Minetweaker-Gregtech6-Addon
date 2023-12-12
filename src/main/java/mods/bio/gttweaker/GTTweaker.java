@@ -7,6 +7,7 @@ import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
 import mods.bio.gttweaker.command.GTCommand;
+import mods.bio.gttweaker.json.OreDictMaterial_Serializable;
 import mods.bio.gttweaker.oredict.*;
 import mods.bio.gttweaker.oredict.bracket.CTMaterialBracketHandler;
 import mods.bio.gttweaker.oredict.bracket.CTPrefixBracketHandler;

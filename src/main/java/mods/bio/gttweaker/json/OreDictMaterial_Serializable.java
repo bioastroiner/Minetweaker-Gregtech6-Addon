@@ -1,4 +1,4 @@
-package mods.bio.gttweaker;
+package mods.bio.gttweaker.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
