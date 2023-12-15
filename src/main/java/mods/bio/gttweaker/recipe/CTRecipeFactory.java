@@ -161,7 +161,7 @@ public class CTRecipeFactory {
 		if(ingredient instanceof IItemStack){
 			return input((IItemStack) ingredient);
 		} else if (ingredient instanceof IOreDictEntry){
-			return input(CTIOreDictExpansion.unify((IOreDictEntry) ingredient));
+			return input(CTIOreDictExpansion.unified((IOreDictEntry) ingredient));
 		} else if(ingredient instanceof ILiquidStack){
 			return fluidInput((ILiquidStack) ingredient);
 		}

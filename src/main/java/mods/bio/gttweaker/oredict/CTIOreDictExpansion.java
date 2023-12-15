@@ -9,7 +9,7 @@ import stanhebben.zenscript.annotations.ZenGetter;
 @ZenExpansion("minetweaker.oredict.IOreDictEntry")
 public class CTIOreDictExpansion {
 	@ZenGetter
-	public static IItemStack unify(IOreDictEntry oreDictEntry){
+	public static IItemStack unified(IOreDictEntry oreDictEntry){
 		return CTUnifier.unifyItem(oreDictEntry);
 	}
 	@ZenGetter

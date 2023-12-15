@@ -1,11 +1,16 @@
 package mods.bio.gttweaker.oredict;
 
+import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
+import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
+
+import java.util.List;
+import java.util.Objects;
 
 @ZenExpansion("minetweaker.item.IItemStack")
 public class CTIItemStackExpansion {
@@ -20,17 +25,28 @@ public class CTIItemStackExpansion {
 	}
 
 	@ZenGetter
-	public static CTMaterial[] materials(IItemStack aIItemStack) {
-		return OreDictManager.INSTANCE.getAssociation_(MineTweakerMC.getItemStack(aIItemStack), false).getAllMaterialStacks().stream().map(s -> s.mMaterial).map(CTMaterial::new).toArray(CTMaterial[]::new);
+	public static CTMaterialData data(IItemStack iItemStack){
+		OreDictItemData data = OreDictManager.INSTANCE.getAssociation_(MineTweakerMC.getItemStack(iItemStack), false);
+		if(data!=null) return new CTMaterialData(data);
+		MineTweakerAPI.logError(String.format("%s dose not contain any gt material data", iItemStack));
+		return null;
 	}
 
 	@ZenGetter
-	public static CTMaterial material(IItemStack aIItemStack) {
-		return new CTMaterial(OreDictManager.INSTANCE.getAssociation_(MineTweakerMC.getItemStack(aIItemStack), false).mMaterial.mMaterial);
+	public static List<CTMaterialStack> materials(IItemStack aIItemStack) {
+		if(data(aIItemStack) == null) return null;
+		return Objects.requireNonNull(data(aIItemStack)).materials();
+	}
+
+	@ZenGetter
+	public static CTMaterialStack material(IItemStack aIItemStack) {
+		if(data(aIItemStack) == null) return null;
+		return Objects.requireNonNull(data(aIItemStack)).material();
 	}
 
 	@ZenGetter
 	public static CTPrefix prefix(IItemStack aIItemStack) {
-		return new CTPrefix(OreDictManager.INSTANCE.getAssociation_(MineTweakerMC.getItemStack(aIItemStack), false).mPrefix);
+		if(data(aIItemStack) == null) return null;
+		return Objects.requireNonNull(data(aIItemStack)).prefix();
 	}
 }
