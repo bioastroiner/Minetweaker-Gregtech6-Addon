@@ -157,6 +157,19 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
+	public CTRecipeFactory output(IIngredient ingredient){
+		if(ingredient instanceof IItemStack){
+			return output((IItemStack) ingredient);
+		} else if (ingredient instanceof IOreDictEntry){
+			return output(CTIOreDictExpansion.unified((IOreDictEntry) ingredient));
+		} else if(ingredient instanceof ILiquidStack){
+			return fluidOutput((ILiquidStack) ingredient);
+		}
+		MineTweakerAPI.logError(ingredient + " is not a valid Ingredient!");
+		return this;
+	}
+
+	@ZenMethod
 	public CTRecipeFactory input(IIngredient ingredient){
 		if(ingredient instanceof IItemStack){
 			return input((IItemStack) ingredient);
@@ -169,6 +182,7 @@ public class CTRecipeFactory {
 		return this;
 	}
 
+	@ZenMethod
 	public CTRecipeFactory inputs(IIngredient... ingredients){
 		if(ingredients == null || ingredients.length < 1)
 			MineTweakerAPI.logError(Arrays.toString(ingredients) + " is invalid! please provide more than 0 arguments");
@@ -246,7 +260,7 @@ public class CTRecipeFactory {
 			Recipe aRecipe =  this.recipeMap.addRecipe(res.backingRecipe);
 			if(aRecipe==null){
 				// if the recipe we adding already exists then just enable and deHide the existing one!
-				MineTweakerAPI.logCommand(res + " is DUPLICATE!");
+				MineTweakerAPI.logWarning(res + " is DUPLICATE!");
 				Recipe altr = recipeMap.findRecipeInternal(null, null, F, F, Long.MAX_VALUE, null, res.backingRecipe.mFluidInputs, res.backingRecipe.mInputs);
 				altr.mEnabled = true;
 				altr.mHidden = false;
