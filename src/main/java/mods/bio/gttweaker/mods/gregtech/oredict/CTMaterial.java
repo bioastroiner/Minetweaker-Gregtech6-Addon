@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.oredict;
+package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictMaterial;
 import minetweaker.MineTweakerAPI;

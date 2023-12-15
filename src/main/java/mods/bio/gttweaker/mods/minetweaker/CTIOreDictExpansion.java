@@ -1,8 +1,11 @@
-package mods.bio.gttweaker.oredict;
+package mods.bio.gttweaker.mods.minetweaker;
 
 import gregapi.oredict.OreDictManager;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTUnifier;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenGetter;
 

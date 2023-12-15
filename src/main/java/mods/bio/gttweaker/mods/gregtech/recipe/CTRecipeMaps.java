@@ -1,12 +1,10 @@
-package mods.bio.gttweaker.recipe;
+package mods.bio.gttweaker.mods.gregtech.recipe;
 
 import gregapi.recipes.Recipe;
 import mods.bio.gttweaker.GTTweaker;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.stream.Collectors;
 
 @ZenClass("mods.gregtech.recipe.RecipeMaps")
 public class CTRecipeMaps {

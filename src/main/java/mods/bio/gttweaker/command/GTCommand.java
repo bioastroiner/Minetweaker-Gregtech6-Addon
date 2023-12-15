@@ -11,8 +11,8 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.ICommandFunction;
-import mods.bio.gttweaker.oredict.CTMaterial;
-import mods.bio.gttweaker.oredict.CTPrefix;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;

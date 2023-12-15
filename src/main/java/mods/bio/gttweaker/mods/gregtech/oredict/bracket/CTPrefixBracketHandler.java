@@ -1,12 +1,11 @@
-package mods.bio.gttweaker.recipe.bracket;
+package mods.bio.gttweaker.mods.gregtech.oredict.bracket;
 
-import gregapi.recipes.Recipe;
+import gregapi.oredict.OreDictPrefix;
 import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
-import mods.bio.gttweaker.GTTweaker;
-import mods.bio.gttweaker.recipe.CTRecipeMap;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
 import stanhebben.zenscript.expression.ExpressionString;
@@ -19,24 +18,21 @@ import stanhebben.zenscript.util.ZenPosition;
 
 import java.util.List;
 
-@BracketHandler(priority = 99)
-public class CTRecipeMapBracketHandler implements IBracketHandler {
+@BracketHandler()
+public class CTPrefixBracketHandler implements IBracketHandler {
 
-	public static CTRecipeMap getRM(String name){
-		Recipe.RecipeMap out = GTTweaker.FORMAT_RECIPE_MAP(name);
-		if(out!=null){
-			return new CTRecipeMap(out);
-		} else {
-			MineTweakerAPI.logError("------- ERROR AT PROCESSING BRACKET HANDLER: " + "<recipemap:" +name + ">");
-			MineTweakerAPI.logError("--- No Such Recipe Map for: " + name +". Returning NULL");
-		}
+	public static CTPrefix getPrefix(String name) {
+		for (String prefixName : OreDictPrefix.sPrefixes.keySet())
+			if (prefixName.equalsIgnoreCase(name))
+				return new CTPrefix(OreDictPrefix.sPrefixes.get(prefixName));
+		MineTweakerAPI.logError(name + " is not a Valid Prefix Name, returned NULL");
 		return null;
 	}
 
 	@Override
 	public IZenSymbol resolve(IEnvironmentGlobal environment, List<Token> tokens) {
 		return tokens.size() > 2 && tokens.get(0).getValue()
-				.equals("recipemap")
+				.equals("prefix")
 				&& tokens.get(1).getValue().equals(":") ? this.find(environment, tokens, 2, tokens.size()) : null;
 	}
 
@@ -48,25 +44,24 @@ public class CTRecipeMapBracketHandler implements IBracketHandler {
 			valueBuilder.append(token.getValue());
 		}
 
-		return new CTRecipeMapBracketHandler.RecipeMapReferenceSymbol(environment, valueBuilder.toString());
+		return new PrefixReferenceSymbol(environment, valueBuilder.toString());
 	}
 
-	private class RecipeMapReferenceSymbol implements IZenSymbol {
+	private class PrefixReferenceSymbol implements IZenSymbol {
 		private final IEnvironmentGlobal environment;
 		private final String name;
 
-		public RecipeMapReferenceSymbol(IEnvironmentGlobal environment, String name) {
+		public PrefixReferenceSymbol(IEnvironmentGlobal environment, String name) {
 			this.environment = environment;
 			this.name = name;
 		}
 
 		public IPartialExpression instance(ZenPosition position) {
 			IJavaMethod method = JavaMethod.get(GlobalRegistry.getTypeRegistry(),
-					CTRecipeMapBracketHandler.class,
-					"getRM",
+					CTPrefixBracketHandler.class,
+					"getPrefix",
 					String.class);
 			return new ExpressionCallStatic(position, this.environment, method, new ExpressionString(position, this.name));
 		}
 	}
-
 }

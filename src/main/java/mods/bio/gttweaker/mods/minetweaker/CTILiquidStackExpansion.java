@@ -1,12 +1,12 @@
-package mods.bio.gttweaker.oredict;
+package mods.bio.gttweaker.mods.minetweaker;
 
-import gregapi.data.FL;
-import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 

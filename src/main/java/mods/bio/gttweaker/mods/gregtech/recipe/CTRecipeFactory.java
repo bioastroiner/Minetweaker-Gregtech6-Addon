@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.recipe;
+package mods.bio.gttweaker.mods.gregtech.recipe;
 
 import gregapi.recipes.Recipe;
 import gregapi.util.ST;
@@ -8,9 +8,9 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
-import mods.bio.gttweaker.oredict.CTIOreDictExpansion;
-import mods.bio.gttweaker.oredict.CTMaterial;
-import mods.bio.gttweaker.oredict.CTPrefix;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
+import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.ImmutablePair;

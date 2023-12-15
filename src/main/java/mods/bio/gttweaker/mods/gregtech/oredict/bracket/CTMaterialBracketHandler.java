@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.oredict.bracket;
+package mods.bio.gttweaker.mods.gregtech.oredict.bracket;
 
 import gregapi.data.MT;
 import gregapi.oredict.OreDictMaterial;
@@ -6,7 +6,7 @@ import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
-import mods.bio.gttweaker.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
 import stanhebben.zenscript.expression.ExpressionString;

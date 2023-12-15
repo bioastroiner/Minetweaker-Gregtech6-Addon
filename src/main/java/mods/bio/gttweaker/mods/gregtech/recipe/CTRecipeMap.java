@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.recipe;
+package mods.bio.gttweaker.mods.gregtech.recipe;
 
 import cpw.mods.fml.common.Optional;
 import gregapi.recipes.Recipe;

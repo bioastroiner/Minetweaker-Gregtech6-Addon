@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.recipe;
+package mods.bio.gttweaker.mods.gregtech.recipe;
 
 import gregapi.recipes.Recipe;
 import minetweaker.api.item.IItemStack;

@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.oredict;
+package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.code.ItemStackContainer;
 import gregapi.data.RM;
@@ -9,7 +9,7 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
-import mods.bio.gttweaker.recipe.CTRecipeMap;
+import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
@@ -45,7 +45,7 @@ public class CTUnifier {
 		try {
 			sItemStack2DataMap = (Map<ItemStackContainer, OreDictItemData>) UT.Reflection.getField(OreDictManager.INSTANCE, "sItemStack2DataMap", true, true).get(OreDictManager.INSTANCE);
 		} catch (Exception e) {
-			MineTweakerAPI.logError("Unexpected Exception at removing ItemData for %s: ".formatted(MineTweakerMC.getIItemStack(aStack)), e);
+			MineTweakerAPI.logError(String.format("Unexpected Exception at removing ItemData for %s: ", MineTweakerMC.getIItemStack(aStack)),e);
 		}
 		OreDictItemData rData = null;
 		ItemStackContainer container = new ItemStackContainer(aStack);

@@ -1,10 +1,10 @@
-package mods.bio.gttweaker.oredict;
+package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictMaterialStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 
-import static mods.bio.gttweaker.oredict.CTUnifier.U;
+import static mods.bio.gttweaker.mods.gregtech.oredict.CTUnifier.U;
 
 @ZenClass("mods.gregtech.MaterialStack")
 public class CTMaterialStack {
