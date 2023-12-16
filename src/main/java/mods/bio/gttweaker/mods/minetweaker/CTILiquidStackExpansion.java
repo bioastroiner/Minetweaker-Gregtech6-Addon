@@ -11,4 +11,9 @@ public class CTILiquidStackExpansion {
 	public static CTMaterialData association(ILiquidStack iLiquidStack) {
 		return CTMaterialData.association(iLiquidStack);
 	}
+
+	@ZenGetter
+	public static CTMaterialData data(ILiquidStack iLiquidStack) {
+		return association(iLiquidStack);
+	}
 }
