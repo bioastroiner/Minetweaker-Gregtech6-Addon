@@ -29,11 +29,13 @@ public class CTIItemStackExpansion {
 	}
 
 	@ZenGetter
+	public static CTMaterialData association(IItemStack iItemStack){
+		return CTMaterialData.association(iItemStack);
+	}
+
+	@ZenGetter
 	public static CTMaterialData data(IItemStack iItemStack){
-		OreDictItemData data = OreDictManager.INSTANCE.getAssociation_(MineTweakerMC.getItemStack(iItemStack), false);
-		if(data!=null) return new CTMaterialData(data);
-		MineTweakerAPI.logError(String.format("%s dose not contain any gt material data", iItemStack));
-		return null;
+		return association(iItemStack);
 	}
 
 	@ZenGetter

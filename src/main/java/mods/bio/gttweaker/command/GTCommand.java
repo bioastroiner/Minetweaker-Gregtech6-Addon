@@ -11,8 +11,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.ICommandFunction;
-import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
-import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialData;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
@@ -52,32 +51,32 @@ public class GTCommand implements ICommandFunction {
 			// TODO Implement GT Hand recipe for held item
 			IItemStack item = player.getCurrentItem();
 			if (item != null) {
-				OreDictItemData data = OreDictManager.INSTANCE.getAssociation(MineTweakerMC.getItemStack(item),true);
+				CTMaterialData data = CTMaterialData.association(item);
 				if(data!=null){
-					List<String> list = new ArrayList<>();
-					list.add("=============================");
-					list.add("== OP: " + new CTPrefix(data.mPrefix));
-					list.add("== MT: "+ new CTMaterial(data.mMaterial.mMaterial));
-					list.add("== UNI: " + MineTweakerMC.getIItemStack(data.getStack(1)));
-					list.add("** MineTweaker **");
-					list.add("== IOreDict: <ore:"+data +">");
-					list.add("== IItemStack: "+item);
-					list.add("=============================");
-					list.forEach(player::sendChat);
-					list.forEach(MineTweakerAPI::logCommand);
-					// copy the <prefix:material> into inventory
-					// copies the <ore:prefix-material> into clipboard
-					if(arguments.length < 2)
-						player.sendChat("Supply additional flags \"ore\" and \"item\" to copy the IOreDict and IItemStack into your clipboard respectively.");
-					if(arguments.length > 1 && Objects.equals(arguments[1],"ore")){
-						player.sendChat("<ore:"+data +">" + " was coppied to your clipboard");
-						copyToClipboard("<ore:"+data +">");
-					}
-					else if(arguments.length > 1 && Objects.equals(arguments[1],"item")) {
-						player.sendChat(MineTweakerMC.getIItemStack(data.getStack(1)).toString() +" was coppied to your clipboard");
-						//player.sendChat("use /minetweaker gt6 hand {ore} , In Order to get the <ore:prefix-material> enrty");
-						copyToClipboard(MineTweakerMC.getIItemStack(data.getStack(1)).toString());
-					}
+				List<String> list = new ArrayList<>();
+				list.add("=============================");
+				list.add("== OP: " + data.prefix());
+				list.add("== MT: "+ data.material());
+				list.add("== UNI: " + MineTweakerMC.getIItemStack(data.backingData.getStack(1)));
+				list.add("** MineTweaker **");
+				list.add("== IOreDict: <ore:"+data.backingData +">");
+				list.add("== IItemStack: "+item);
+				list.add("=============================");
+				list.forEach(player::sendChat);
+				list.forEach(MineTweakerAPI::logCommand);
+				// copy the <prefix:material> into inventory
+				// copies the <ore:prefix-material> into clipboard
+				if(arguments.length < 2)
+					player.sendChat("Supply additional flags \"ore\" and \"item\" to copy the IOreDict and IItemStack into your clipboard respectively.");
+				if(arguments.length > 1 && Objects.equals(arguments[1],"ore")){
+					player.sendChat("<ore:"+data.backingData +">" + " was coppied to your clipboard");
+					copyToClipboard("<ore:"+data.backingData +">");
+				}
+				else if(arguments.length > 1 && Objects.equals(arguments[1],"item")) {
+					player.sendChat(MineTweakerMC.getIItemStack(data.backingData.getStack(1)).toString() +" was coppied to your clipboard");
+					//player.sendChat("use /minetweaker gt6 hand {ore} , In Order to get the <ore:prefix-material> enrty");
+					copyToClipboard(MineTweakerMC.getIItemStack(data.backingData.getStack(1)).toString());
+				}
 				}else player.sendChat("Item { "+item+ "} dose not contain GT associated data!");
 			} else player.sendChat("No item was found");
 		}

@@ -1,18 +1,25 @@
 package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictItemData;
+import gregapi.oredict.OreDictManager;
 import minetweaker.MineTweakerAPI;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static gregapi.data.CS.F;
+
 @ZenClass("mods.gregtech.oredict.MaterialData")
 public class CTMaterialData {
-	private final OreDictItemData backingData;
+	public final OreDictItemData backingData;
 	@ZenGetter
 	public CTMaterialStack material(){
 		if(backingData.mMaterial != null) return new CTMaterialStack(backingData.mMaterial);
@@ -41,8 +48,27 @@ public class CTMaterialData {
 		return list;
 	}
 
-	public CTMaterialData(OreDictItemData backingData) {
+	private CTMaterialData(OreDictItemData backingData) {
 		this.backingData = backingData;
+		if(backingData==null) {
+			MineTweakerAPI.logError("Material Data cannot be null",new NullPointerException("Not a valid Material Data."));
+		}
+	}
+
+	@ZenMethod
+	public static CTMaterialData association(IItemStack item){
+		OreDictItemData data = OreDictManager.INSTANCE.getAssociation(MineTweakerMC.getItemStack(item),F);
+		if(data!=null) return new CTMaterialData(data);
+		MineTweakerAPI.logError(item + " dose not have a GT Association!");
+		return null;
+	}
+
+	@ZenMethod
+	public static CTMaterialData association(IOreDictEntry ore){
+		OreDictItemData data = OreDictManager.INSTANCE.getAutomaticItemData(ore.getName());
+		if(data!=null) return new CTMaterialData(data);
+		MineTweakerAPI.logError(ore + " dose not have a GT Association!");
+		return null;
 	}
 
 	/**

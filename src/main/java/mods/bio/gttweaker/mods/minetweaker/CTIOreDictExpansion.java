@@ -4,6 +4,7 @@ import gregapi.oredict.OreDictManager;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialData;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTUnifier;
 import stanhebben.zenscript.annotations.ZenExpansion;
@@ -28,5 +29,15 @@ public class CTIOreDictExpansion {
 	@ZenGetter
 	public static long amount(IOreDictEntry oreDictEntry){
 		return prefix(oreDictEntry).amount();
+	}
+
+	@ZenGetter
+	public static CTMaterialData association(IOreDictEntry oreDictEntry){
+		return CTMaterialData.association(oreDictEntry);
+	}
+
+	@ZenGetter
+	public static CTMaterialData data(IOreDictEntry oreDictEntry){
+		return association(oreDictEntry);
 	}
 }
