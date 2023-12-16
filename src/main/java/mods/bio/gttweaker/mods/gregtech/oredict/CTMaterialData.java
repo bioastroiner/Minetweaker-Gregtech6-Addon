@@ -2,8 +2,11 @@ package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
+import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -60,6 +63,17 @@ public class CTMaterialData {
 		OreDictItemData data = OreDictManager.INSTANCE.getAssociation(MineTweakerMC.getItemStack(item),F);
 		if(data!=null) return new CTMaterialData(data);
 		MineTweakerAPI.logError(item + " dose not have a GT Association!");
+		return null;
+	}
+
+	@ZenMethod
+	public static CTMaterialData association(ILiquidStack iLiquidStack){
+		OreDictMaterialStack stack = OreDictMaterial.FLUID_MAP.get(MineTweakerMC.getLiquidStack(iLiquidStack).getFluid().getName());
+		if(stack!=null) {
+			OreDictItemData data = new OreDictItemData(stack);
+			return new CTMaterialData(data);
+		}
+		MineTweakerAPI.logError(iLiquidStack + " dose not have a GT Association!");
 		return null;
 	}
 
