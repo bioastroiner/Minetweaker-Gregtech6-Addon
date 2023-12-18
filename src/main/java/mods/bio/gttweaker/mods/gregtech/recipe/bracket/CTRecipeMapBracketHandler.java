@@ -5,7 +5,7 @@ import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
-import mods.bio.gttweaker.GTTweaker;
+import mods.bio.gttweaker.core.GTTweaker;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;

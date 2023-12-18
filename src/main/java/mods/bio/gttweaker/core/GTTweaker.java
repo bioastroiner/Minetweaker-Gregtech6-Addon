@@ -1,4 +1,4 @@
-package mods.bio.gttweaker;
+package mods.bio.gttweaker.core;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.recipes.Recipe;
@@ -6,8 +6,8 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
-import mods.bio.gttweaker.command.GTCommand;
-import mods.bio.gttweaker.json.OreDictMaterial_Serializable;
+import mods.bio.gttweaker.core.command.GTCommand;
+import mods.bio.gttweaker.core.json.OreDictMaterial_Serializable;
 import mods.bio.gttweaker.mods.gregtech.oredict.*;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeFactory;
@@ -24,7 +24,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import java.util.Objects;
 
-@cpw.mods.fml.common.Mod(modid = mods.bio.gttweaker.GTTweaker.MOD_ID, name = mods.bio.gttweaker.GTTweaker.MOD_NAME, version = mods.bio.gttweaker.GTTweaker.VERSION)
+@cpw.mods.fml.common.Mod(modid = GTTweaker.MOD_ID, name = GTTweaker.MOD_NAME, version = GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	// https://github.com/GTNewHorizons/Minetweaker-Gregtech-5-Addon/blob/master/src/main/java/gttweaker/GTTweaker.java
 	public static final String MOD_ID = "GRADLETOKEN_MODID";

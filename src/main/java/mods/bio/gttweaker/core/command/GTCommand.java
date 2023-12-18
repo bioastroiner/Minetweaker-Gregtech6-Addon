@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.command;
+package mods.bio.gttweaker.core.command;
 
 import gregapi.data.CS;
 import gregapi.oredict.OreDictItemData;

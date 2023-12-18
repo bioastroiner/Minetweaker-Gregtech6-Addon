@@ -1,7 +1,7 @@
 package mods.bio.gttweaker.mods.gregtech.recipe;
 
 import gregapi.recipes.Recipe;
-import mods.bio.gttweaker.GTTweaker;
+import mods.bio.gttweaker.core.GTTweaker;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;

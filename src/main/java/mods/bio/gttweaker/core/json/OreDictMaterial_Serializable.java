@@ -1,11 +1,8 @@
-package mods.bio.gttweaker.json;
+package mods.bio.gttweaker.core.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gregapi.oredict.OreDictMaterial;
-
-import java.io.File;
-import java.io.FileWriter;
 
 public class OreDictMaterial_Serializable {
 	public final transient OreDictMaterial _mat;
