@@ -66,6 +66,11 @@ public class CTPrefix {
 	}
 
 	@ZenMethod
+	public IItemStack material(CTMaterial aMaterial) {
+		return withMaterial(aMaterial);
+	}
+
+	@ZenMethod
 	public CTPrefix disableItemGeneration() {
 		prefix_internal.disableItemGeneration();
 		MineTweakerAPI.logInfo(String.format("ItemGeneration for %s has been disabled.", this));
