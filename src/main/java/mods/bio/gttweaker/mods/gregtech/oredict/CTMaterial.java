@@ -14,6 +14,12 @@ public class CTMaterial {
 		return material_internal;
 	}
 
+	@ZenMethod
+	public static CTMaterialFactory create(short id, @NotNull String oreDictName, @Optional String localName){
+		if (localName == null) localName = oreDictName;
+		return new CTMaterialFactory(id, oreDictName, localName);
+	}
+
 	public CTMaterial(OreDictMaterial aMaterial){
 		if (aMaterial == null){
 			MineTweakerAPI.logError("Null Material was provided unable to create a new <material:>");
