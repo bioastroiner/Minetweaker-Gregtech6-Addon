@@ -8,13 +8,11 @@ import java.util.Objects;
 
 @ZenClass("mods.gregtech.oredict.Material")
 public class CTMaterial {
-	public final OreDictMaterial material_internal;
 	private final OreDictMaterial material_internal;
 
 	public OreDictMaterial getMaterial(){
 		return material_internal;
 	}
-
 
 	public CTMaterial(OreDictMaterial aMaterial){
 		if (aMaterial == null){
