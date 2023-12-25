@@ -4,10 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gregapi.oredict.OreDictMaterial;
 
+import java.io.File;
+import java.io.IOException;
+
 public class OreDictMaterial_Serializable {
 	public final transient OreDictMaterial _mat;
 
 	public static void _INITLIZE(){
+		File materials_folder = new File("gt_materials");
+		if(!materials_folder.exists() || !materials_folder.isDirectory()) {
+			materials_folder.mkdir();
+		}
 		//TODO: we dont do anything yet...
 //
 //		// skip 0 = Empty
@@ -30,6 +37,11 @@ public class OreDictMaterial_Serializable {
 //		}
 //		System.out.println(String.format("It took %d Seconds to generate the JSON Materials for Gregtech 6!",System.currentTimeMillis() - milis));
 
+//		try {
+//
+//		} catch (IOException e){
+//			e.printStackTrace();
+//		}
 	}
 	private transient short mID;
 	//private final int mHashID;
