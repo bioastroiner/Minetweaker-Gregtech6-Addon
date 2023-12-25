@@ -28,6 +28,15 @@ public class CTMaterial {
 	}
 
 	/**
+	 * @return method for modifying existing material and accessing their Raw Builder.
+	 */
+	@ZenGetter
+	public CTMaterialFactory edit(){
+		return new CTMaterialFactory(this);
+	}
+
+
+	/**
 	 * @return formatted string as it is formatted in bracketHandler
 	 */
 	@Override
