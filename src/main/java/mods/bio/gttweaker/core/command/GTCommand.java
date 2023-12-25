@@ -1,6 +1,7 @@
 package mods.bio.gttweaker.core.command;
 
 import gregapi.data.CS;
+import gregapi.data.TD;
 import gregapi.oredict.OreDictItemData;
 import gregapi.oredict.OreDictManager;
 import gregapi.oredict.OreDictMaterial;
@@ -19,17 +20,22 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * TODO: Migrate to MC native Commands to support autocompletion and stuff
+ */
 public class GTCommand implements ICommandFunction {
 	public static final String[] DESCRIPTION = new String[]{"    Gregtech 6 commands:",
 			"      /minetweaker gt materials/mats/MT", "        Lists all materials",
 			"      /minetweaker gt prefixes/OP", "                   Lists all Prefixes with amounts",
 			"      /minetweaker gt recipemaps/RM {recipemap name}", "             Lists all possible RecipeMaps (case insensitive), enter a name to get that recipemap entry coppied to your clipboard.",
-			"      /minetweaker gt hand {ore}", "             oredict information nd gt handlers about the item your holding"};
+			"      /minetweaker gt hand {ore}", "             oredict information nd gt handlers about the item your holding",
+			"      /minetweaker gt tags", "             prints all available tags for Materials and other things. Sadly it's hard to make a Dynamic documentation for what these Tags do, i hope the names are descriptive enough you can visit TD class in gt6 source code where the javadoc is readble."};
 	public static GTCommand INSTANCE = new GTCommand();
 	@Override
 	public void execute(String[] arguments, IPlayer player) {
@@ -43,6 +49,21 @@ public class GTCommand implements ICommandFunction {
 			PREFIXES(arguments, player);
 			RECIPE_MAPS(arguments, player);
 			HAND(arguments, player);
+			if(arguments[0].equals("tags")){
+				StringBuilder builder = new StringBuilder();
+				builder.append("Available Tags: ");
+				try {
+					for (Class<?> aClass : TD.class.getClasses()) {
+						for (Field field : aClass.getFields()) {
+							builder.append(field.getName());
+							builder.append(", ");
+						}
+					}
+				} catch (Exception ignored){
+					ignored.printStackTrace();
+				}
+				MineTweakerAPI.logInfo(builder.toString());
+			}
 		}
 	}
 
