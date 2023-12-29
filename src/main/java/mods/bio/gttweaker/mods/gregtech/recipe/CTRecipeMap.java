@@ -7,6 +7,8 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import mods.bio.gttweaker.core.GTTweaker;
+import mods.bio.gttweaker.mods.gregtech.recipe.actions.AddRecipeAction;
+import mods.bio.gttweaker.mods.gregtech.recipe.actions.RemoveRecipeAction;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -62,6 +64,7 @@ public class CTRecipeMap {
 	)
 	public CTRecipe findRecipeCT(IItemStack[] itemsIn, ILiquidStack[] liquidsIn) {
 		Recipe recipe = backingRecipeMap.findRecipe(null,null,T,Long.MAX_VALUE,null,MineTweakerMC.getLiquidStacks(liquidsIn),MineTweakerMC.getItemStacks(itemsIn));
+		if (recipe == null) MineTweakerAPI.logWarning(String.format("No Recipe with \nItems: %s - \nFluids: %s Was Found!", Arrays.toString(itemsIn), Arrays.toString(liquidsIn)));
 		return recipe == null ? null : new CTRecipe(recipe);
 	}
 
@@ -96,48 +99,21 @@ public class CTRecipeMap {
 	@Optional.Method(
 			modid = "MineTweaker3"
 	)
-	//FIXME remover
 	public boolean remove(CTRecipe recipe) {
-		if (recipe == null) {
-			MineTweakerAPI.logWarning("NULL recipe was tried to be removed!!!");
-			return true;
+		if(recipe == null) {
+			MineTweakerAPI.logError("NULL recipe was tried to be removed!!!");
+			return false;
 		}
-//		if (backingRecipeMap.mRecipeList.contains(recipe.backingRecipe))
-//			MineTweakerAPI.logError(recipe + " was not removed. WHY");
-		recipe.backingRecipe.mHidden = true;
-		recipe.backingRecipe.mEnabled = false;
-		boolean ret = backingRecipeMap.mRecipeList.remove(recipe.backingRecipe);
-		if(!ret) MineTweakerAPI.logError(String.format("Recipe: %s \nwas not Removed from %s RecipeMap!",recipe,this));
-		else {
-			backingRecipeMap.mRecipeItemMap.entrySet()
-					.stream()
-					.filter(
-							e -> e.getValue()
-									.removeIf(r -> r == recipe.backingRecipe)
-									&& e.getValue().isEmpty())
-					.map(Map.Entry::getKey)
-					.collect(Collectors.toSet())
-					.forEach(backingRecipeMap.mRecipeItemMap::remove);
-			backingRecipeMap.mRecipeFluidMap.entrySet()
-					.stream()
-					.filter(
-							e -> e.getValue()
-									.removeIf(r -> r == recipe.backingRecipe)
-									&& e.getValue().isEmpty())
-					.map(Map.Entry::getKey)
-					.collect(Collectors.toSet())
-					.forEach(backingRecipeMap.mRecipeFluidMap::remove);
-		}
-		return ret;
+		return RemoveRecipeAction.removeRecipeAction(recipe.backingRecipe,backingRecipeMap);
 	}
 
 	@ZenMethod
 	@Optional.Method(
 			modid = "MineTweaker3"
 	)
-	public void add(CTRecipe recipe) {
+	public boolean add(CTRecipe recipe) {
 		MineTweakerAPI.logCommand("adding " + recipe + " to" + this);
-		backingRecipeMap.addRecipe(recipe.backingRecipe);
+		return AddRecipeAction.addRecipe(recipe.backingRecipe,backingRecipeMap);
 	}
 
 	@ZenMethod("factory")
