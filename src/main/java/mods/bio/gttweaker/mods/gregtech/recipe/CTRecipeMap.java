@@ -23,6 +23,10 @@ import static gregapi.data.CS.*;
 public class CTRecipeMap {
 	public final Recipe.RecipeMap backingRecipeMap;
 	public final String nameShort,nameInternal;
+
+	public static String format(Recipe.RecipeMap recipeMap){
+		return String.format("<recipemap:%s>",recipeMap.mNameInternal);
+	}
 	public CTRecipeMap(Recipe.RecipeMap mapIn){
 		backingRecipeMap = mapIn;
 		nameInternal = mapIn.mNameInternal;
@@ -199,7 +203,7 @@ public class CTRecipeMap {
 	 */
 	@Override
 	public String toString() {
-		return String.format("<recipemap:%s>",nameInternal);
+		return format(backingRecipeMap);
 	}
 
 	@Override
