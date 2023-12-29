@@ -13,31 +13,28 @@ import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import static gregapi.data.CS.*;
+import static gregapi.data.CS.T;
+import static mods.bio.gttweaker.core.RecipeHelper.checkRecipeIO;
 
 @ZenClass("mods.gregtech.recipe.RecipeFactory")
 public class CTRecipeFactory {
-	private int energy,duration,circuit;
+	private int energy, duration;
 
-	public static List<Map.Entry<Recipe, Recipe.RecipeMap>> ADDED_RECIPES = new ArrayList<>();
+	private final List<ItemStack> inputs, outputs;
+	private final List<FluidStack> inputsFluid, outputsFluid;
 
-	private List<ItemStack> inputs,outputs;
-	private List<FluidStack> inputsFluid,outputsFluid;
-
-	private List<Integer> chanced;
-	private Recipe.RecipeMap recipeMap;
+	private final List<Integer> chanced;
+	private final Recipe.RecipeMap recipeMap;
 	private int special_value = 0;
 
-	public CTRecipeFactory(Recipe.RecipeMap recipeMap){
+	public CTRecipeFactory(Recipe.RecipeMap recipeMap) {
 		this.recipeMap = recipeMap;
 		inputs = new ArrayList<>();
 		outputs = new ArrayList<>();
@@ -62,7 +59,7 @@ public class CTRecipeFactory {
 
 	@ZenMethod
 	public CTRecipeFactory nonConsumable(IItemStack stack) {
-		inputs.add(ST.size(0,MineTweakerMC.getItemStack(stack)));
+		inputs.add(ST.size(0, MineTweakerMC.getItemStack(stack)));
 		return this;
 	}
 
@@ -83,7 +80,7 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
-	public CTRecipeFactory input(CTPrefix aPrefix, CTMaterial aMaterial,int aAmount) {
+	public CTRecipeFactory input(CTPrefix aPrefix, CTMaterial aMaterial, int aAmount) {
 		return input(aPrefix.withMaterial(aMaterial).amount(aAmount));
 	}
 
@@ -93,7 +90,7 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
-	public CTRecipeFactory output(CTPrefix aPrefix, CTMaterial aMaterial,int aAmount) {
+	public CTRecipeFactory output(CTPrefix aPrefix, CTMaterial aMaterial, int aAmount) {
 		return output(aPrefix.withMaterial(aMaterial).amount(aAmount));
 	}
 
@@ -139,7 +136,7 @@ public class CTRecipeFactory {
 	@ZenMethod
 	public CTRecipeFactory chancedOutput(IItemStack output, int chance) {
 		output(output);
-		chanced.set(outputs.size(),chance);
+		chanced.set(outputs.size(), chance);
 		return this;
 	}
 
@@ -157,12 +154,12 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
-	public CTRecipeFactory output(IIngredient ingredient){
-		if(ingredient instanceof IItemStack){
+	public CTRecipeFactory output(IIngredient ingredient) {
+		if (ingredient instanceof IItemStack) {
 			return output((IItemStack) ingredient);
-		} else if (ingredient instanceof IOreDictEntry){
+		} else if (ingredient instanceof IOreDictEntry) {
 			return output(CTIOreDictExpansion.unified((IOreDictEntry) ingredient));
-		} else if(ingredient instanceof ILiquidStack){
+		} else if (ingredient instanceof ILiquidStack) {
 			return fluidOutput((ILiquidStack) ingredient);
 		}
 		MineTweakerAPI.logError(ingredient + " is not a valid Ingredient!");
@@ -170,12 +167,12 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
-	public CTRecipeFactory input(IIngredient ingredient){
-		if(ingredient instanceof IItemStack){
+	public CTRecipeFactory input(IIngredient ingredient) {
+		if (ingredient instanceof IItemStack) {
 			return input((IItemStack) ingredient);
-		} else if (ingredient instanceof IOreDictEntry){
+		} else if (ingredient instanceof IOreDictEntry) {
 			return input(CTIOreDictExpansion.unified((IOreDictEntry) ingredient));
-		} else if(ingredient instanceof ILiquidStack){
+		} else if (ingredient instanceof ILiquidStack) {
 			return fluidInput((ILiquidStack) ingredient);
 		}
 		MineTweakerAPI.logError(ingredient + " is not a valid Ingredient!");
@@ -183,10 +180,10 @@ public class CTRecipeFactory {
 	}
 
 	@ZenMethod
-	public CTRecipeFactory inputs(IIngredient... ingredients){
-		if(ingredients == null || ingredients.length < 1)
+	public CTRecipeFactory inputs(IIngredient... ingredients) {
+		if (ingredients == null || ingredients.length < 1)
 			MineTweakerAPI.logError(Arrays.toString(ingredients) + " is invalid! please provide more than 0 arguments");
-		else for (IIngredient ingredient:ingredients) {
+		else for (IIngredient ingredient : ingredients) {
 			input(ingredient);
 		}
 		return this;
@@ -200,76 +197,19 @@ public class CTRecipeFactory {
 		for (int i = 0; i < chanced.size(); i++) {
 			chance[i] = chanced.get(i);
 		}
-		built = new Recipe(T,T,inputs.toArray(new ItemStack[0]),outputs.toArray(new ItemStack[0]),null,chance,inputsFluid.toArray(new FluidStack[0]),outputsFluid.toArray(new FluidStack[0]),duration,energy,special_value);
+		built = new Recipe(T, T, inputs.toArray(new ItemStack[0]), outputs.toArray(new ItemStack[0]), null, chance, inputsFluid.toArray(new FluidStack[0]), outputsFluid.toArray(new FluidStack[0]), duration, energy, special_value);
 		return new CTRecipe(built);
 	}
 
 	private boolean checkIO() {
-		if(inputs.size() > recipeMap.mInputItemsCount){
-			MineTweakerAPI.logError(
-					"INPUT ITEMS COUNT MUST BE =< THAN {" +  recipeMap.mInputItemsCount + "}"
-			);
-			return true;
-		}
-		if(outputs.size() > recipeMap.mOutputItemsCount){
-			MineTweakerAPI.logError(
-					"OUTPUT ITEMS COUNT MUST BE =< THAN {" +  recipeMap.mOutputItemsCount + "}"
-			);
-			return true;
-		}
-		if(inputs.size() < recipeMap.mMinimalInputItems){
-			MineTweakerAPI.logError(
-					"INPUT ITEMS COUNT MUST BE > THAN {" +  recipeMap.mMinimalInputItems + "}"
-			);
-			return true;
-		}
-		if(recipeMap.mNeedsOutputs && (outputs.isEmpty() && outputsFluid.isEmpty())){
-			MineTweakerAPI.logError("OUTPUT ITEMS MUST BE > 0");
-			return true;
-		}
-
-		if(inputsFluid.size() > recipeMap.mInputFluidCount){
-			MineTweakerAPI.logError(
-					"INPUT FLUID COUNT MUST BE =< THAN {" +  recipeMap.mInputItemsCount + "}"
-			);
-			return true;
-		}
-		if(outputsFluid.size() > recipeMap.mOutputFluidCount){
-			MineTweakerAPI.logError(
-					"OUTPUT FLUID COUNT MUST BE =< THAN {" +  recipeMap.mOutputItemsCount + "}"
-			);
-			return true;
-		}
-		if(inputsFluid.size() < recipeMap.mMinimalInputFluids){
-			MineTweakerAPI.logError(
-					"INPUT FLUID COUNT MUST BE > THAN {" +  recipeMap.mMinimalInputItems + "}"
-			);
-			return true;
-		}
-		if(recipeMap.mNeedsOutputs && (outputs.isEmpty() && outputsFluid.isEmpty())){
-			MineTweakerAPI.logError("OUTPUT (FLUID+ITEM) MUST BE > 0");
-			return true;
-		}
-		return false;
+		return checkRecipeIO(recipeMap, inputs, outputs, inputsFluid, outputsFluid);
 	}
 
 	@ZenMethod
 	public void buildAndRegister() {
 		CTRecipe res = build();
-		if(res != null) {
-			Recipe aRecipe =  this.recipeMap.addRecipe(res.backingRecipe);
-			if(aRecipe==null){
-				// if the recipe we adding already exists then just enable and deHide the existing one!
-				MineTweakerAPI.logWarning(res + " is DUPLICATE!");
-				Recipe altr = recipeMap.findRecipeInternal(null, null, F, F, Long.MAX_VALUE, null, res.backingRecipe.mFluidInputs, res.backingRecipe.mInputs);
-				altr.mEnabled = true;
-				altr.mHidden = false;
-				ADDED_RECIPES.add(new ImmutablePair<>(altr,recipeMap));
-			} else {
-				ADDED_RECIPES.add(new ImmutablePair<>(res.backingRecipe,recipeMap));
-				MineTweakerAPI.logInfo("Added Recipe for " + recipeMap.toString() + "\n" + res.toString());
-			}
-		}
-		else MineTweakerAPI.logError("COULD NOT CREATE RECIPE FOR \n" + recipeMap.toString());
+		if (res != null) {
+			res.add(new CTRecipeMap(recipeMap));
+		} else MineTweakerAPI.logError("COULD NOT CREATE RECIPE FOR \n" + recipeMap.toString());
 	}
 }
