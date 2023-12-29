@@ -54,7 +54,7 @@ public class CTPrefix {
 
 	@ZenMethod
 	public IItemStack withMaterial(CTMaterial aMaterial) {
-		IItemStack aStack = MineTweakerMC.getIItemStack(prefix_internal.mat(aMaterial.material_internal, 1));
+		IItemStack aStack = MineTweakerMC.getIItemStack(prefix_internal.mat(aMaterial.getMaterial(), 1));
 		if (aStack == null)
 			MineTweakerAPI.logError(String.format("%s dose not return a valid Item in %s.", aMaterial, this));
 		return aStack;
