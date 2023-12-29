@@ -13,22 +13,18 @@ import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static gregapi.data.CS.*;
 
 @ZenClass("mods.gregtech.recipe.RecipeFactory")
 public class CTRecipeFactory {
 	private int energy,duration,circuit;
-
-	public static List<Map.Entry<Recipe, Recipe.RecipeMap>> ADDED_RECIPES = new ArrayList<>();
 
 	private List<ItemStack> inputs,outputs;
 	private List<FluidStack> inputsFluid,outputsFluid;
@@ -256,20 +252,7 @@ public class CTRecipeFactory {
 	@ZenMethod
 	public void buildAndRegister() {
 		CTRecipe res = build();
-		if(res != null) {
-			Recipe aRecipe =  this.recipeMap.addRecipe(res.backingRecipe);
-			if(aRecipe==null){
-				// if the recipe we adding already exists then just enable and deHide the existing one!
-				MineTweakerAPI.logWarning(res + " is DUPLICATE!");
-				Recipe altr = recipeMap.findRecipeInternal(null, null, F, F, Long.MAX_VALUE, null, res.backingRecipe.mFluidInputs, res.backingRecipe.mInputs);
-				altr.mEnabled = true;
-				altr.mHidden = false;
-				ADDED_RECIPES.add(new ImmutablePair<>(altr,recipeMap));
-			} else {
-				ADDED_RECIPES.add(new ImmutablePair<>(res.backingRecipe,recipeMap));
-				MineTweakerAPI.logInfo("Added Recipe for " + recipeMap.toString() + "\n" + res.toString());
-			}
-		}
+		if(res != null) {res.add(new CTRecipeMap(recipeMap));}
 		else MineTweakerAPI.logError("COULD NOT CREATE RECIPE FOR \n" + recipeMap.toString());
 	}
 }

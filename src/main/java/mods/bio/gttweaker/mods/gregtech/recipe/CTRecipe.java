@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 public class CTRecipe {
 	public final Recipe backingRecipe;
+	public static String format(Recipe recipe){
+		return String.format("Recipe(EUt=%d, duration=%d, enabled=%s)\nin=%s\nout=%s\nfluidIn=%s\nfluidOut=%s\nspecial_value=%s", recipe.mEUt, recipe.mDuration, recipe.mEnabled, recipe.mInputs.toString(), recipe.mOutputs.toString(), recipe.mFluidInputs.toString(), recipe.getFluidOutputs().toString(), recipe.mSpecialValue);
+	}
 	public CTRecipe(Recipe recipe){
 		this.backingRecipe = recipe;
 	}
@@ -63,8 +66,12 @@ public class CTRecipe {
 	public boolean remove(CTRecipeMap recipeMap){
 		return recipeMap.remove(this);
 	}
+	public boolean add(CTRecipeMap recipeMap){
+		return recipeMap.add(this);
+	}
+
 
 	public String toString() {
-		return String.format("Recipe(EUt=%d, duration=%d, enabled=%s)\nin=%s\nout=%s\nfluidIn=%s\nfluidOut=%s\nspecial_value=%s", backingRecipe.mEUt, backingRecipe.mDuration, backingRecipe.mEnabled, backingRecipe.mInputs.toString(), backingRecipe.mOutputs.toString(), backingRecipe.mFluidInputs.toString(), backingRecipe.getFluidOutputs().toString(), backingRecipe.mSpecialValue);
+		return format(backingRecipe);
 	}
 }
