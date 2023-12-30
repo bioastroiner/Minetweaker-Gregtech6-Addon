@@ -3,6 +3,8 @@ package mods.bio.gttweaker.mods.minetweaker;
 import gregapi.oredict.OreDictManager;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialData;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
@@ -22,7 +24,7 @@ public class CTIOreDictExpansion {
 	}
 
 	@ZenGetter
-	public static CTPrefix prefix(IOreDictEntry oreDictEntry){
+	public static IPrefix prefix(IOreDictEntry oreDictEntry){
 		return new CTPrefix(OreDictManager.INSTANCE.getAutomaticItemData(oreDictEntry.getName()).mPrefix);
 	}
 
@@ -32,12 +34,12 @@ public class CTIOreDictExpansion {
 	}
 
 	@ZenGetter
-	public static CTMaterialData association(IOreDictEntry oreDictEntry){
-		return CTMaterialData.association(oreDictEntry);
+	public static IMaterialData association(IOreDictEntry oreDictEntry){
+		return IMaterialData.association(oreDictEntry);
 	}
 
 	@ZenGetter
-	public static CTMaterialData data(IOreDictEntry oreDictEntry){
+	public static IMaterialData data(IOreDictEntry oreDictEntry){
 		return association(oreDictEntry);
 	}
 }

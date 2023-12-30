@@ -3,6 +3,7 @@ package mods.bio.gttweaker.mods.gregtech.recipe.actions;
 import gregapi.recipes.Recipe;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
 import mods.bio.gttweaker.core.RecipeHelper;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;

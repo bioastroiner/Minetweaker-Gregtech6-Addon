@@ -12,6 +12,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.ICommandFunction;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialData;
 import org.apache.commons.lang3.StringUtils;
 
@@ -72,7 +73,7 @@ public class GTCommand implements ICommandFunction {
 			// TODO Implement GT Hand recipe for held item
 			IItemStack item = player.getCurrentItem();
 			if (item != null) {
-				CTMaterialData data = CTMaterialData.association(item);
+				CTMaterialData data = (CTMaterialData) IMaterialData.association(item);
 				if(data!=null){
 				List<String> list = new ArrayList<>();
 				list.add("=============================");

@@ -6,12 +6,17 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
 import mods.bio.gttweaker.core.command.GTCommand;
 import mods.bio.gttweaker.core.json.OreDictMaterial_Serializable;
 import mods.bio.gttweaker.mods.gregtech.oredict.*;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeFactory;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMaps;
 import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTMaterialBracketHandler;
 import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTPrefixBracketHandler;
@@ -127,18 +132,21 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	@Override
 	public void onModInit2(FMLInitializationEvent aEvent) {
 		OreDictMaterial_Serializable._INITLIZE();
-		MineTweakerAPI.registerClass(CTRecipe.class);
-		MineTweakerAPI.registerClass(CTRecipeFactory.class);
-		MineTweakerAPI.registerClass(CTRecipeMap.class);
+
+		MineTweakerAPI.registerClass(IRecipe.class);
+		MineTweakerAPI.registerClass(IRecipeFactory.class);
+		MineTweakerAPI.registerClass(IRecipeMap.class);
+
+		MineTweakerAPI.registerClass(IMaterial.class);
+		MineTweakerAPI.registerClass(IMaterialStack.class);
+		MineTweakerAPI.registerClass(IPrefix.class);
+		MineTweakerAPI.registerClass(IMaterialData.class);
+
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 		MineTweakerAPI.registerClass(CTUnifier.class);
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
 		MineTweakerAPI.registerClass(CTIItemStackExpansion.class);
 		MineTweakerAPI.registerClass(CTILiquidStackExpansion.class);
-		MineTweakerAPI.registerClass(CTMaterial.class);
-		MineTweakerAPI.registerClass(CTMaterialData.class);
-		MineTweakerAPI.registerClass(CTMaterialStack.class);
-		MineTweakerAPI.registerClass(CTPrefix.class);
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTPrefixBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTMaterialBracketHandler());
@@ -196,20 +204,5 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	@Override
 	public void onModServerStopped2(cpw.mods.fml.common.event.FMLServerStoppedEvent aEvent) {
 		// Insert your ServerStopped Code here and not above
-	}
-
-	public static ItemStack getItemStackOrNull(IIngredient ingredient) {
-		Object internal = ingredient.getInternal();
-		if (internal instanceof ItemStack) return (ItemStack) internal;
-		else if (internal instanceof String) return OreDictionary.getOres((String) internal)
-				.size() > 0 ? OreDictionary.getOres((String) internal)
-				.get(0) : null;
-		return null;
-	}
-
-	public static FluidStack getFluidStackOrNull(IIngredient ingredient) {
-		Object internal = ingredient.getInternal();
-		if (internal instanceof FluidStack) return (FluidStack) internal;
-		return null;
 	}
 }

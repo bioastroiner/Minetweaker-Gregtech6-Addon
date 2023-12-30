@@ -5,6 +5,8 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -12,7 +14,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.Objects;
 
 @ZenClass("mods.gregtech.oredict.Prefix")
-public class CTPrefix {
+public class CTPrefix implements mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix {
 	public final OreDictPrefix prefix_internal;
 
 	public CTPrefix(OreDictPrefix aPrefix) {
@@ -45,6 +47,7 @@ public class CTPrefix {
 	/**
 	 * @return gets a qualified amount on terms of U, its a float TODO we need to work on Unit System and make it a bit unified
 	 */
+	@Override
 	@ZenGetter
 	public long amount() {
 		return prefix_internal.mAmount;
@@ -52,57 +55,66 @@ public class CTPrefix {
 
 	/*      METHODS     */
 
+	@Override
 	@ZenMethod
-	public IItemStack withMaterial(CTMaterial aMaterial) {
+	public IItemStack withMaterial(IMaterial aMaterial) {
 		IItemStack aStack = MineTweakerMC.getIItemStack(prefix_internal.mat(aMaterial.getMaterial(), 1));
 		if (aStack == null)
 			MineTweakerAPI.logError(String.format("%s dose not return a valid Item in %s.", aMaterial, this));
 		return aStack;
 	}
 
+	@Override
 	@ZenMethod
-	public IItemStack mat(CTMaterial aMaterial) {
+	public IItemStack mat(IMaterial aMaterial) {
 		return withMaterial(aMaterial);
 	}
 
+	@Override
 	@ZenMethod
-	public IItemStack material(CTMaterial aMaterial) {
+	public IItemStack material(IMaterial aMaterial) {
 		return withMaterial(aMaterial);
 	}
 
+	@Override
 	@ZenMethod
-	public CTPrefix disableItemGeneration() {
+	public IPrefix disableItemGeneration() {
 		prefix_internal.disableItemGeneration();
 		MineTweakerAPI.logInfo(String.format("ItemGeneration for %s has been disabled.", this));
 		return this;
 	}
 
+	@Override
 	@ZenMethod
-	public CTPrefix forceItemGeneration() {
+	public IPrefix forceItemGeneration() {
 		prefix_internal.forceItemGeneration();
 		MineTweakerAPI.logInfo(String.format("ItemGeneration for %s has been Forced to be generated.", this));
 		return this;
 	}
 
+	@Override
 	@ZenMethod
 	public boolean contains(IItemStack aIItemStack) {
 		return prefix_internal.contains(MineTweakerMC.getItemStack(aIItemStack));
 	}
 
+	@Override
 	@ZenMethod
 	public boolean contains(IItemStack... aIItemStacks) {
 		return prefix_internal.contains(MineTweakerMC.getItemStacks(aIItemStacks));
 	}
 
+	@Override
 	@ZenMethod
 	// TODO there is more to this visit later, but it's rather ready for production
-	public CTPrefix contains(int stackSize) {
+	public IPrefix contains(int stackSize) {
 		MineTweakerAPI.logInfo(String.format("New StackSize has been set for %s from %d to %d", this, prefix_internal.mDefaultStackSize, stackSize));
 		prefix_internal.setStacksize(stackSize);
 		return this;
 	}
 
 	// TODO: to be implemented
+	@Override
 	public boolean contains(IOreDictEntry aIOreDictEntry) {
 		return false;
 	}

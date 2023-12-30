@@ -1,17 +1,15 @@
 package mods.bio.gttweaker.mods.gregtech.recipe;
 
-import cpw.mods.fml.common.Optional;
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
+import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
 import mods.bio.gttweaker.core.GTTweaker;
 import mods.bio.gttweaker.mods.gregtech.recipe.actions.AddRecipeAction;
 import mods.bio.gttweaker.mods.gregtech.recipe.actions.RemoveRecipeAction;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenGetter;
-import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,8 +19,7 @@ import static gregapi.data.CS.*;
 /**
  * Wraper for GT RecipeMap since that dose not have MT annotations
  */
-@ZenClass("mods.gregtech.recipe.RecipeMap")
-public class CTRecipeMap {
+public class CTRecipeMap implements mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap {
 	public final Recipe.RecipeMap backingRecipeMap;
 	public final String nameShort,nameInternal;
 
@@ -34,60 +31,39 @@ public class CTRecipeMap {
 		nameInternal = mapIn.mNameInternal;
 		nameShort = GTTweaker.FORMAT_RECIPE_MAP(mapIn);
 	}
-	@ZenMethod("name")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public String getNameShort(){
 		return nameShort;
 	}
 
-	@ZenMethod("nameInternal")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public String getNameInternal(){
 		return nameInternal;
 	}
 
-	@ZenMethod("getRecipes")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
-	public List<CTRecipe> getRecipesCT() {
+	@Override
+	public List<IRecipe> getRecipesCT() {
 		return backingRecipeMap.mRecipeList.stream().map(CTRecipe::new).collect(Collectors.toList());
 	}
 
-	@ZenMethod("findRecipe")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public CTRecipe findRecipeCT(IItemStack[] itemsIn, ILiquidStack[] liquidsIn) {
 		Recipe recipe = backingRecipeMap.findRecipe(null,null,T,Long.MAX_VALUE,null,MineTweakerMC.getLiquidStacks(liquidsIn),MineTweakerMC.getItemStacks(itemsIn));
 		if (recipe == null) MineTweakerAPI.logWarning(String.format("No Recipe with \nItems: %s - \nFluids: %s Was Found!", Arrays.toString(itemsIn), Arrays.toString(liquidsIn)));
 		return recipe == null ? null : new CTRecipe(recipe);
 	}
 
-	@ZenMethod("removeRecipe")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public boolean removeRecipeCT(IItemStack[] itemsIn) {
 		return removeRecipeCT(itemsIn, null);
 	}
 
-	@ZenMethod("removeRecipe")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public boolean removeRecipeCT(ILiquidStack[] liquidsIn) {
 		return removeRecipeCT(null, liquidsIn);
 	}
 
-	@ZenMethod("removeRecipe")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
+	@Override
 	public boolean removeRecipeCT(IItemStack[] itemsIn, ILiquidStack[] liquidsIn){
 		return remove(findRecipeCT(itemsIn,liquidsIn));
 	}
@@ -95,82 +71,70 @@ public class CTRecipeMap {
 	/**
 	 * Remover dose not remove on Reload!!! but it hides and disables the recipes so do not worry.
 	 */
-	@ZenMethod
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
-	public boolean remove(CTRecipe recipe) {
+	@Override
+	public boolean remove(IRecipe recipe) {
 		if(recipe == null) {
 			MineTweakerAPI.logError("NULL recipe was tried to be removed!!!");
 			return false;
 		}
-		return RemoveRecipeAction.removeRecipeAction(recipe.backingRecipe,backingRecipeMap);
+		return RemoveRecipeAction.removeRecipeAction(((CTRecipe) recipe).backingRecipe,backingRecipeMap);
 	}
 
-	@ZenMethod
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
-	public boolean add(CTRecipe recipe) {
+	@Override
+	public boolean add(IRecipe recipe) {
 		MineTweakerAPI.logCommand("adding " + recipe + " to" + this);
-		return AddRecipeAction.addRecipe(recipe.backingRecipe,backingRecipeMap);
+		return AddRecipeAction.addRecipe(((CTRecipe) recipe).backingRecipe,backingRecipeMap);
 	}
 
-	@ZenMethod("factory")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
-	public CTRecipeFactory factoryCT() {
+	@Override
+	public IRecipeFactory factory() {
 		return new CTRecipeFactory(this.backingRecipeMap);
 	}
 
 
-	@ZenGetter("minInputs")
+	@Override
 	public int getMinInputs() {
 		return backingRecipeMap.mMinimalInputItems;
 	}
 
-	@ZenGetter("maxInputs")
+	@Override
 	public int getMaxInputs() {
 		return backingRecipeMap.mInputItemsCount;
 	}
 
-	@ZenGetter("minOutputs")
+	@Override
 	public int getMinOutputs() {
 		//return backingRecipeMap.mOutputItemsCount;
 		return 0;
 	}
 
-	@ZenGetter("maxOutputs")
+	@Override
 	public int getMaxOutputs() {
 		return backingRecipeMap.mOutputItemsCount;
 	}
 
-	@ZenGetter("minFluidInputs")
+	@Override
 	public int getMinFluidInputs() {
 		return backingRecipeMap.mMinimalInputFluids;
 	}
 
-	@ZenGetter("maxFluidInputs")
+	@Override
 	public int getMaxFluidInputs() {
 		return backingRecipeMap.mInputFluidCount;
 	}
 
-	@ZenGetter("minFluidOutputs")
+	@Override
 	public int getMinFluidOutputs() {
 		return 0;
 	}
 
-	@ZenGetter("maxFluidOutputs")
+	@Override
 	public int getMaxFluidOutputs() {
 		return backingRecipeMap.mOutputFluidCount;
 	}
 
-	@ZenMethod("register")
-	@Optional.Method(
-			modid = "MineTweaker3"
-	)
-	public void registerCT(CTRecipe recipe) {
+	@Override
+	public void registerRecipe(IRecipe recipe) {
 		add(recipe);
 	}
 

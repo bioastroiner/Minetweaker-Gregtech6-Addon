@@ -1,17 +1,24 @@
 package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.MineTweakerAPI;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
 import stanhebben.zenscript.annotations.*;
 
 import java.util.Objects;
 
-@ZenClass("mods.gregtech.oredict.Material")
-public class CTMaterial {
+public class CTMaterial implements mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial {
 	private final OreDictMaterial material_internal;
 
+	@Override
 	public OreDictMaterial getMaterial(){
 		return material_internal;
+	}
+
+	@Override
+	public IMaterialStack multiply(long amount) {
+		return new CTMaterialStack(new OreDictMaterialStack(getMaterial(),amount));
 	}
 
 	public CTMaterial(OreDictMaterial aMaterial){

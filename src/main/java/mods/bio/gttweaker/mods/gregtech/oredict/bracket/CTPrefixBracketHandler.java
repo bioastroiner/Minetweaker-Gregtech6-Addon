@@ -5,6 +5,7 @@ import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
@@ -21,7 +22,7 @@ import java.util.List;
 @BracketHandler()
 public class CTPrefixBracketHandler implements IBracketHandler {
 
-	public static CTPrefix getPrefix(String name) {
+	public static IPrefix getPrefix(String name) {
 		for (String prefixName : OreDictPrefix.sPrefixes.keySet())
 			if (prefixName.equalsIgnoreCase(name))
 				return new CTPrefix(OreDictPrefix.sPrefixes.get(prefixName));
