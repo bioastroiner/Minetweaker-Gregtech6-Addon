@@ -6,10 +6,7 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.util.IEventHandler;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.*;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
@@ -138,6 +135,7 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(IRecipeMap.class);
 
 		MineTweakerAPI.registerClass(IMaterial.class);
+		MineTweakerAPI.registerClass(IMaterialFactory.class);
 		MineTweakerAPI.registerClass(IMaterialStack.class);
 		MineTweakerAPI.registerClass(IPrefix.class);
 		MineTweakerAPI.registerClass(IMaterialData.class);

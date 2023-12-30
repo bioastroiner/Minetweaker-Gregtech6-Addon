@@ -3,6 +3,8 @@ package mods.bio.gttweaker.mods.gregtech.oredict;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.MineTweakerAPI;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.CTMaterialFactory;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
 import stanhebben.zenscript.annotations.*;
 
@@ -14,6 +16,11 @@ public class CTMaterial implements mods.bio.gttweaker.api.mods.gregtech.oredict.
 	@Override
 	public OreDictMaterial getMaterial(){
 		return material_internal;
+	}
+
+	@Override
+	public IMaterialFactory edit() {
+		return new CTMaterialFactory(this);
 	}
 
 	@Override
