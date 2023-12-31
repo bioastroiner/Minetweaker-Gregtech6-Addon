@@ -6,6 +6,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
@@ -33,13 +34,13 @@ public class CTPrefix implements mods.bio.gttweaker.api.mods.gregtech.oredict.IP
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		CTPrefix ctPrefix = (CTPrefix) o;
-		return Objects.equals(prefix_internal, ctPrefix.prefix_internal);
+		CTPrefix that = (CTPrefix) o;
+		return Objects.equals(prefix_internal, that.prefix_internal);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(prefix_internal);
+		return prefix_internal.hashCode();
 	}
 
 	/*      GETTERS     */
@@ -90,6 +91,11 @@ public class CTPrefix implements mods.bio.gttweaker.api.mods.gregtech.oredict.IP
 		prefix_internal.forceItemGeneration();
 		MineTweakerAPI.logInfo(String.format("ItemGeneration for %s has been Forced to be generated.", this));
 		return this;
+	}
+
+	@Override
+	public IMaterialStack stack(IMaterial material) {
+		return material.multiply(amount());
 	}
 
 	@Override

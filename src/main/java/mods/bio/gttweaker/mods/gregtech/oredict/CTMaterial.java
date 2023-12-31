@@ -6,7 +6,6 @@ import minetweaker.MineTweakerAPI;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.CTMaterialFactory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
-import stanhebben.zenscript.annotations.*;
 
 import java.util.Objects;
 
@@ -53,6 +52,6 @@ public class CTMaterial implements mods.bio.gttweaker.api.mods.gregtech.oredict.
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(material_internal);
+		return material_internal.hashCode();
 	}
 }
