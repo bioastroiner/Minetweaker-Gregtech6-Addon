@@ -1,4 +1,4 @@
-package mods.bio.gttweaker.api.mods.gregtech.oredict;
+package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.code.ModData;
 import gregapi.data.MD;
@@ -9,6 +9,8 @@ import gregapi.render.TextureSet;
 import gregapi.util.UT;
 import minetweaker.MineTweakerAPI;
 import minetweaker.OneWayAction;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

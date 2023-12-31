@@ -3,7 +3,6 @@ package mods.bio.gttweaker.mods.gregtech.oredict;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.MineTweakerAPI;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.CTMaterialFactory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
 
