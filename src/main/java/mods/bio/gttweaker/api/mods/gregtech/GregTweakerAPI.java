@@ -1,15 +1,26 @@
 package mods.bio.gttweaker.api.mods.gregtech;
 
 import gregapi.oredict.OreDictMaterial;
+import gregapi.oredict.OreDictMaterialStack;
 import minetweaker.api.item.IIngredient;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
+import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Arrays;
+
 public class GregTweakerAPI {
 	public static OreDictMaterial getMaterial(IMaterial iMaterial){
 		return iMaterial.getMaterial();
+	}
+	public static OreDictMaterialStack getMaterialStack(IMaterialStack iMaterialStack){
+		return ((CTMaterialStack) iMaterialStack).get_backingStack();
+	}
+	public static OreDictMaterialStack[] getMaterialStacks(IMaterialStack... iMaterialStacks){
+		return (OreDictMaterialStack[]) Arrays.stream(iMaterialStacks).map(GregTweakerAPI::getMaterialStack).toArray();
 	}
 
 //	public static OreDictPrefix getPrefix(IPrefix iPrefix){

@@ -2,7 +2,6 @@ package mods.bio.gttweaker.api.mods.gregtech.oredict;
 
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
-import mods.bio.gttweaker.mods.gregtech.oredict.CTPrefix;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -24,6 +23,9 @@ public interface IPrefix {
 
 	@ZenMethod
 	IPrefix forceItemGeneration();
+
+	@ZenMethod
+	IMaterialStack stack(IMaterial material);
 
 	@ZenMethod
 	boolean contains(IItemStack aIItemStack);

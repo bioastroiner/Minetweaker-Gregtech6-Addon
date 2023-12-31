@@ -1,11 +1,14 @@
 package mods.bio.gttweaker.mods.gregtech.oredict;
 
 import gregapi.oredict.OreDictMaterialStack;
+import gregapi.util.ST;
+import gregapi.util.UT;
+import minetweaker.api.item.IItemStack;
+import minetweaker.api.minecraft.MineTweakerMC;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
-import stanhebben.zenscript.annotations.OperatorType;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenGetter;
-import stanhebben.zenscript.annotations.ZenOperator;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
 
 import static mods.bio.gttweaker.mods.gregtech.oredict.CTUnifier.U;
 
@@ -21,17 +24,34 @@ public class CTMaterialStack implements mods.bio.gttweaker.api.mods.gregtech.ore
 	}
 
 	@Override
-	public IMaterial material(){
+	public IMaterial material() {
 		return new CTMaterial(_backingStack.mMaterial);
+	}
+
+	@Override
+	public IItemStack item(IPrefix aPrefix) {
+		return MineTweakerMC.getIItemStack(ST.size(UT.Code.divup(amount(), U() * aPrefix.amount()), MineTweakerMC.getItemStack(aPrefix.mat(material()))));
+	}
+
+	@Override
+	public long multiply(long amount) {
+		return _backingStack.mAmount *= amount;
+	}
+
+	@Override
+	public long devide(long amount) {
+		_backingStack.mAmount = UT.Code.divup(_backingStack.mAmount, amount);
+		return amount();
+	}
+
+	@Override
+	public IMaterialData add(IMaterialStack materialStack) {
+		return new CTMaterialData(this, materialStack);
 	}
 
 	@Override
 	public long amount() {
 		return _backingStack.mAmount;
-	}
-
-	public CTMaterialStack(OreDictMaterialStack backingStack) {
-		_backingStack = backingStack;
 	}
 
 	/**
