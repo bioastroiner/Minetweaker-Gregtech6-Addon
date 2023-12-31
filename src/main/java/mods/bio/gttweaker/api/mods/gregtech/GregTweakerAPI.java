@@ -30,8 +30,7 @@ public class GregTweakerAPI {
 	public static ItemStack getItemStackOrNull(IIngredient ingredient) {
 		Object internal = ingredient.getInternal();
 		if (internal instanceof ItemStack) return (ItemStack) internal;
-		else if (internal instanceof String) return OreDictionary.getOres((String) internal)
-				.size() > 0 ? OreDictionary.getOres((String) internal)
+		else if (internal instanceof String) return !OreDictionary.getOres((String) internal).isEmpty() ? OreDictionary.getOres((String) internal)
 				.get(0) : null;
 		return null;
 	}
