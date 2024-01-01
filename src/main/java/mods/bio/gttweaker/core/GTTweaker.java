@@ -142,30 +142,16 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
 		MineTweakerAPI.registerClass(CTUnifier.class);
+
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
 		MineTweakerAPI.registerClass(CTIItemStackExpansion.class);
 		MineTweakerAPI.registerClass(CTILiquidStackExpansion.class);
+		MineTweakerAPI.registerClass(CTIMaterialFactoryExpansion.class);
+
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTPrefixBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTMaterialBracketHandler());
-
-		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
-			@Override
-			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
-				//OreDictMaterial_Serializable._INITLIZE();
-			}
-		});
-
-		// this happens right before the scripts get loaded so its safe here to remove the pervios added recipes
-		MineTweakerImplementationAPI.onReloadEvent(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
-			@Override
-			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
-				MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
-				// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
-				Recipe.reInit();
-			}
-		});
-		};
+		}
 
 	@Override
 	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {

@@ -3,7 +3,7 @@ package mods.bio.gttweaker.api.mods.gregtech.oredict;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-@ZenClass("mods.gregtech.oredict.MaterialFactory")
+@ZenClass("mods.gregtech.oredict.IMaterialFactory")
 public interface IMaterialFactory {
 	//
 	@ZenMethod

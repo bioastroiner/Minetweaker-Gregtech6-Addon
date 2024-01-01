@@ -5,9 +5,9 @@ import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.minecraft.MineTweakerMC;
+import mods.bio.gttweaker.api.mods.gregtech.GregTweakerAPI;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
-import mods.bio.gttweaker.core.GTTweaker;
 import mods.bio.gttweaker.mods.gregtech.recipe.actions.AddRecipeAction;
 import mods.bio.gttweaker.mods.gregtech.recipe.actions.RemoveRecipeAction;
 
@@ -29,7 +29,7 @@ public class CTRecipeMap implements mods.bio.gttweaker.api.mods.gregtech.recipe.
 	public CTRecipeMap(Recipe.RecipeMap mapIn){
 		backingRecipeMap = mapIn;
 		nameInternal = mapIn.mNameInternal;
-		nameShort = GTTweaker.FORMAT_RECIPE_MAP(mapIn);
+		nameShort = GregTweakerAPI.FORMAT_RECIPE_MAP(mapIn);
 	}
 	@Override
 	public String getNameShort(){

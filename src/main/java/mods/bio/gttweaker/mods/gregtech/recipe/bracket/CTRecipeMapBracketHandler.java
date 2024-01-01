@@ -5,8 +5,8 @@ import minetweaker.IBracketHandler;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.BracketHandler;
 import minetweaker.runtime.GlobalRegistry;
+import mods.bio.gttweaker.api.mods.gregtech.GregTweakerAPI;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
-import mods.bio.gttweaker.core.GTTweaker;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.expression.ExpressionCallStatic;
@@ -24,7 +24,7 @@ import java.util.List;
 public class CTRecipeMapBracketHandler implements IBracketHandler {
 
 	public static IRecipeMap getRM(String name){
-		Recipe.RecipeMap out = GTTweaker.FORMAT_RECIPE_MAP(name);
+		Recipe.RecipeMap out = GregTweakerAPI.FORMAT_RECIPE_MAP(name);
 		if(out!=null){
 			return new CTRecipeMap(out);
 		} else {
