@@ -2,7 +2,10 @@ package mods.bio.gttweaker.api.mods.gregtech;
 
 import gregapi.oredict.OreDictMaterial;
 import gregapi.oredict.OreDictMaterialStack;
+import gregapi.recipes.Recipe;
+import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
+import minetweaker.runtime.providers.ScriptProviderDirectory;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
 import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialStack;
@@ -10,7 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class GregTweakerAPI {
 	public static OreDictMaterial getMaterial(IMaterial iMaterial){
@@ -64,5 +70,42 @@ public class GregTweakerAPI {
 			MineTweakerAPI.logError(name + " is not a valid recipemap name!");
 		}
 		return out;
+	}
+
+	public enum ScriptProvider{
+		POST_PREINIT("scripts_postPreInit","____REGISTER_GT6_MATERIALS_HERE",null),
+		AFTER_INIT("scripts_afterInit","____REGISTER_GT6_TILEENTITIES_HERE",null)
+		;
+		File script_dir;
+		File hint_dir;
+		String hint_name;
+		String hint_content = null;
+		ScriptProvider(String folderName,String hint_name, String hint_content){
+			script_dir = new File(folderName);
+			hint_name = "____REGISTER_GT6_MATERIALS_HERE";
+		}
+		public ScriptProviderDirectory create(){
+			ScriptProviderDirectory provider = new ScriptProviderDirectory(script_dir);
+			if (!script_dir.exists()) {
+				if(!script_dir.mkdirs()) MineTweakerAPI.logError(String.format("<%s> Folder was failed to be created!", script_dir));
+			}
+			if(hint_dir == null) return provider;
+			hint_dir = new File(script_dir,hint_name);
+			try {
+				if(!hint_dir.createNewFile()) MineTweakerAPI.logError("Script Hint file was failed to be created!");
+			} catch (IOException e) {
+				MineTweakerAPI.logError("Script Hint file was failed to be created!",e);
+			}
+			return provider;
+		}
+
+		public void setContent(String write){
+			hint_content = write;
+		}
+	}
+
+	static {
+		ScriptProvider.POST_PREINIT.hint_content = "";
+		ScriptProvider.AFTER_INIT.hint_content = "";
 	}
 }

@@ -4,8 +4,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
-import minetweaker.api.item.IIngredient;
-import minetweaker.util.IEventHandler;
+import mods.bio.gttweaker.api.mods.gregtech.GregTweakerAPI;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.*;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
 import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
@@ -13,7 +12,6 @@ import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
 import mods.bio.gttweaker.core.command.GTCommand;
 import mods.bio.gttweaker.core.json.OreDictMaterial_Serializable;
 import mods.bio.gttweaker.mods.gregtech.oredict.*;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
 import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMaps;
 import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTMaterialBracketHandler;
 import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTPrefixBracketHandler;
@@ -21,10 +19,6 @@ import mods.bio.gttweaker.mods.gregtech.recipe.bracket.CTRecipeMapBracketHandler
 import mods.bio.gttweaker.mods.minetweaker.CTIItemStackExpansion;
 import mods.bio.gttweaker.mods.minetweaker.CTILiquidStackExpansion;
 import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
-import java.util.Objects;
 
 @cpw.mods.fml.common.Mod(modid = GTTweaker.MOD_ID, name = GTTweaker.MOD_NAME, version = GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
@@ -38,32 +32,30 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	//@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
 	public static gregapi.api.Abstract_Proxy PROXY;
 
-	public static String FORMAT_RECIPE_MAP(Recipe.RecipeMap map){
-		String[] tmp = map.toString().split("\\.");
-		return tmp[tmp.length-1];
-	}
-
-	public static Recipe.RecipeMap FORMAT_RECIPE_MAP(String name){
-		Recipe.RecipeMap out = null;
-		if(Recipe.RecipeMap.RECIPE_MAPS.containsKey(name)){
-			out = Recipe.RecipeMap.RECIPE_MAPS.get(name);
-		}
-		if(out == null) for (Recipe.RecipeMap map: Recipe.RecipeMap.RECIPE_MAP_LIST) {
-			String[] tmp = map.toString().split("\\.");
-			String sName = tmp[tmp.length-1];
-			if(Objects.equals(sName.toLowerCase(),name.toLowerCase())){
-				out = map;
-			}
-		}
-		if(out!=null){
-			return out;
-		} else {
-			MineTweakerAPI.logError(name + " is not a valid recipemap name!");
-		}
-		return out;
-	}
-
 	public GTTweaker() {
+		// load MineTweaker Scripts right after PreInit to have the new materials registered
+		// If you use "scripts_postPreInit" for material registration it will load first
+		mAfterPreInit.add(() -> {
+			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.POST_PREINIT.create());
+			MineTweakerImplementationAPI.reload();
+		});
+		// load MineTweaker Scripts right after PreInit to have the new tileentities registered
+		// If you use "scripts_afterInit" for material registration it will load first
+		// this loads right after init but still during the init phase!
+		mAfterInit.add(() -> {
+			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.AFTER_INIT.create());
+			MineTweakerImplementationAPI.reload();
+		});
+		// MineTweaker Runtime Events
+		// this happens right before the scripts get loaded so its safe here to remove the pervios added recipes
+		MineTweakerImplementationAPI.onReloadEvent(reloadEvent-> {
+			MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
+			// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
+			Recipe.reInit();
+		});
+		MineTweakerImplementationAPI.onPostReload(reloadEvent ->  {
+			//OreDictMaterial_Serializable._INITLIZE();
+		});
 	}
 
 	@Override
