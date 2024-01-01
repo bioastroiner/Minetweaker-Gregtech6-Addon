@@ -7,11 +7,10 @@ import gregapi.data.TD;
 import gregapi.oredict.OreDictMaterial;
 import gregapi.render.TextureSet;
 import gregapi.util.UT;
+import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
-import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterial;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import stanhebben.zenscript.annotations.NotNull;
@@ -359,7 +358,7 @@ public class CTMaterialFactory implements IMaterialFactory {
 	 * OneWay Material Creator used for already non-existing Materials
 	 * , Ideally you need to Reload the whole game for this to take effect.
 	 */
-	private static class BuildMaterialAction extends OneWayAction {
+	private static class BuildMaterialAction implements IUndoableAction {
 		short id;
 		String oreDictName, localName;
 
@@ -382,8 +381,23 @@ public class CTMaterialFactory implements IMaterialFactory {
 		}
 
 		@Override
+		public boolean canUndo() {
+			return true;
+		}
+
+		@Override
+		public void undo() {
+			// dont do anything?
+		}
+
+		@Override
 		public String describe() {
-			return null;
+			return String.format("Registering Material: %s with ID: %d",localName,id);
+		}
+
+		@Override
+		public String describeUndo() {
+			return "Cannot remove Material during runtime.";
 		}
 
 		@Override
