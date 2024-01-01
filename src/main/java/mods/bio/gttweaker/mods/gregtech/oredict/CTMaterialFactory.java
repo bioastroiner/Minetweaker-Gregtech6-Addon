@@ -11,6 +11,8 @@ import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
 import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialFactory;
+import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
+import mods.bio.gttweaker.core.GTTweaker;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import stanhebben.zenscript.annotations.NotNull;
@@ -38,6 +40,7 @@ public class CTMaterialFactory implements IMaterialFactory {
 			MineTweakerAPI.apply(new BuildMaterialAction(id, oreDictName, localName));
 		}
 		backing_material = OreDictMaterial.MATERIAL_ARRAY[id];
+		backing_material.setOriginalMod(GTTweaker.MOD_DATA);
 	}
 
 	public CTMaterialFactory(IMaterial material) {
@@ -56,6 +59,17 @@ public class CTMaterialFactory implements IMaterialFactory {
 	@ZenMethod
 	public IMaterialFactory setOriginalMod(String modID, String name) {
 		backing_material.setOriginalMod(new ModData(modID, name));
+		return this;
+	}
+
+	@Override
+	public IMaterialFactory formula(String formula) {
+		return tooltip(formula);
+	}
+
+	@Override
+	public IMaterialFactory tooltip(String tooltip) {
+		backing_material.tooltip(tooltip);
 		return this;
 	}
 
@@ -122,6 +136,16 @@ public class CTMaterialFactory implements IMaterialFactory {
 			ret = add(tag);
 		}
 		return ret;
+	}
+
+	@Override
+	public IMaterialFactory tag(String tag) {
+		return add(tag);
+	}
+
+	@Override
+	public IMaterialFactory tag(String... tags) {
+		return add(tags);
 	}
 
 	@Override
@@ -246,6 +270,11 @@ public class CTMaterialFactory implements IMaterialFactory {
 	public IMaterialFactory visPrefix(String... aOreDictNames) {
 		backing_material.visPrefix(aOreDictNames);
 		return this;
+	}
+
+	@Override
+	public IMaterialFactory visPrefix(IPrefix... aPrefixes) {
+		return visPrefix(Arrays.stream(aPrefixes).map(IPrefix::oreDictName).toArray(String[]::new));
 	}
 
 	@Override

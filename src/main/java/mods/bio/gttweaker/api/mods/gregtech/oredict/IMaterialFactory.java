@@ -13,6 +13,12 @@ public interface IMaterialFactory {
 	IMaterialFactory setOriginalMod(String modID, String name);
 
 	@ZenMethod
+	IMaterialFactory formula(String formula);
+
+	@ZenMethod
+	IMaterialFactory tooltip(String tooltip);
+
+	@ZenMethod
 	IMaterialFactory addIdenticalNames(String... names);
 
 	@ZenMethod
@@ -36,6 +42,12 @@ public interface IMaterialFactory {
 
 	@ZenMethod
 	IMaterialFactory add(String... tags);
+
+	@ZenMethod
+	IMaterialFactory tag(String tag);
+
+	@ZenMethod
+	IMaterialFactory tag(String... tags);
 
 	@ZenMethod
 	IMaterialFactory qual(float aSpeed, long aDurability, long aQuality);
@@ -90,6 +102,9 @@ public interface IMaterialFactory {
 
 	@ZenMethod
 	IMaterialFactory visPrefix(String... aOreDictNames);
+
+	@ZenMethod
+	IMaterialFactory visPrefix(IPrefix... aPrefixes);
 
 	@ZenMethod
 	IMaterialFactory visDefault(IMaterial... aMaterials);

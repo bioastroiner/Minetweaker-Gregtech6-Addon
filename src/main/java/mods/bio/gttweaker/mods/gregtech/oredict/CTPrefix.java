@@ -45,6 +45,11 @@ public class CTPrefix implements mods.bio.gttweaker.api.mods.gregtech.oredict.IP
 
 	/*      GETTERS     */
 
+	@Override
+	public String oreDictName() {
+		return prefix_internal.mNameInternal;
+	}
+
 	/**
 	 * @return gets a qualified amount on terms of U, its a float TODO we need to work on Unit System and make it a bit unified
 	 */

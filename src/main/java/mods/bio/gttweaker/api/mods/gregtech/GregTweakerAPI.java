@@ -105,7 +105,55 @@ public class GregTweakerAPI {
 	}
 
 	static {
-		ScriptProvider.POST_PREINIT.hint_content = "";
+		ScriptProvider.POST_PREINIT.hint_content = "import mods.gregtech.oredict.IMaterialFactory;\n" +
+				"\n" +
+				"var factory = IMaterialFactory.create(3023,\"ExampeliumExamplie\",\"Exampellies Examplium\");\n" +
+				"\n" +
+				"factory.addIdenticalNames(\"Exampelate Exampelittium\",\"Example Example Example\",\"Exxxxxxx\");\n" +
+				"factory.setRGBa(0xFFFFFF); // white\n" +
+				"//factory.setRGBa(255,255,255,255);\n" +
+				"//factory.stealLooks(<material:copper>);\n" +
+				"//factory.steal(<material:iron>);\n" +
+				"factory.setTexture(\"DULL\");\n" +
+				"factory.qual(5,8,8); // or call .speed, .duribility and .qual alone\n" +
+				"factory.heat(3000); // in Kelvin\n" +
+				"//factory.hide();\n" +
+				"\n" +
+				"factory.formula(\"ExAmPl\"); //.tooltip\n" +
+				"\n" +
+				"// automatically gets set to GTTweaker but you can change it\n" +
+				"factory.setOriginalMod(\"GTTweaker\");\n" +
+				"\n" +
+				"/* other useful builtin Methods\n" +
+				"IMaterialFactory stealStatsElement(IMaterial aStatsToCopy);\n" +
+				"IMaterialFactory setDensity(double aGramPerCubicCentimeter);\n" +
+				"IMaterialFactory addSourceOf(IMaterial... aMaterials);\n" +
+				"IMaterialFactory hide();\n" +
+				"IMaterialFactory hide(boolean aHidden);\n" +
+				"\n" +
+				"// use TD.Tags data, use commands to get a list of all possible tags you can choose from\n" +
+				"IMaterialFactory.tag(String tag);\n" +
+				"IMaterialFactory.add(String tag);\n" +
+				"\n" +
+				"// sets visible names\n" +
+				"IMaterialFactory visName(String... aOreDictNames);\n" +
+				"IMaterialFactory visPrefix(String... aOreDictNames);\n" +
+				"IMaterialFactory visDefault(IMaterial... aMaterials);\n" +
+				"\n" +
+				"IMaterialFactory lens(byte aColor);\n" +
+				"IMaterialFactory alloyCentrifuge();\n" +
+				"IMaterialFactory alloyElectrolyzer();\n" +
+				"IMaterialFactory alloySimple();\n" +
+				"IMaterialFactory alloyCentrifuge(long aMelt);\n" +
+				"IMaterialFactory alloyElectrolyzer(long aMelt);\n" +
+				"IMaterialFactory alloySimple(long aMelt);\n" +
+				"IMaterialFactory alloyCentrifuge(long aMelt, long aBoil);\n" +
+				"IMaterialFactory alloyElectrolyzer(long aMelt, long aBoil);\n" +
+				"IMaterialFactory alloySimple(long aMelt, long aBoil);\n" +
+				"IMaterialFactory alloyCentrifuge(IMaterial aHeat);\n" +
+				"IMaterialFactory alloyElectrolyzer(IMaterial aHeat);\n" +
+				"IMaterialFactory alloySimple(IMaterial aHeat);\n" +
+				"*/";
 		ScriptProvider.AFTER_INIT.hint_content = "";
 	}
 }

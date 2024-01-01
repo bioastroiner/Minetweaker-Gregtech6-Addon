@@ -6,6 +6,9 @@ import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 public interface IPrefix {
+
+	@ZenGetter
+	String oreDictName();
 	@ZenGetter
 	long amount();
 
