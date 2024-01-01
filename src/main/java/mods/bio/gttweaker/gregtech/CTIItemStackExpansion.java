@@ -16,12 +16,12 @@ import java.util.Objects;
 public class CTIItemStackExpansion {
 	@ZenMethod
 	public static boolean removeRecycling(IItemStack aIItemStack) {
-		return CTMaterialManager.removeRecyclingCT(aIItemStack);
+		return CTMaterialManager.removeRecycling(aIItemStack);
 	}
 
 	@ZenMethod
 	public static boolean removeMaterialData(IItemStack aIItemStack) {
-		return CTMaterialManager.removeRecyclingCT(aIItemStack);
+		return CTMaterialManager.removeRecycling(aIItemStack);
 	}
 
 	@ZenGetter

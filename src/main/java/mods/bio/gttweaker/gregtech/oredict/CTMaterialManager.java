@@ -76,8 +76,8 @@ public class CTMaterialManager {
 	}
 
 	// removes recycling for an itemstack without wiping its oredict material info
-	@ZenMethod("removeRecycling")
-	public static boolean removeRecyclingCT(IItemStack aStack) {
+	@ZenMethod
+	public static boolean removeRecycling(IItemStack aStack) {
 		return removeRecycling(MineTweakerMC.getItemStack(aStack));
 	}
 
