@@ -4,21 +4,21 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
-import mods.bio.gttweaker.api.mods.gregtech.GregTweakerAPI;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.*;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
+import mods.bio.gttweaker.api.oredict.*;
+import mods.bio.gttweaker.api.recipe.IRecipe;
+import mods.bio.gttweaker.api.recipe.IRecipeFactory;
+import mods.bio.gttweaker.api.recipe.IRecipeMap;
 import mods.bio.gttweaker.core.command.GTCommand;
 import mods.bio.gttweaker.core.json.OreDictMaterial_Serializable;
-import mods.bio.gttweaker.mods.gregtech.oredict.*;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMaps;
-import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTMaterialBracketHandler;
-import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTPrefixBracketHandler;
-import mods.bio.gttweaker.mods.gregtech.recipe.bracket.CTRecipeMapBracketHandler;
-import mods.bio.gttweaker.mods.minetweaker.CTIItemStackExpansion;
-import mods.bio.gttweaker.mods.minetweaker.CTILiquidStackExpansion;
-import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
+import mods.bio.gttweaker.gregtech.CTIItemStackExpansion;
+import mods.bio.gttweaker.gregtech.CTILiquidStackExpansion;
+import mods.bio.gttweaker.gregtech.CTIOreDictExpansion;
+import mods.bio.gttweaker.gregtech.oredict.CTMaterialManager;
+import mods.bio.gttweaker.gregtech.oredict.MaterialRegistry;
+import mods.bio.gttweaker.gregtech.oredict.bracket.CTMaterialBracketHandler;
+import mods.bio.gttweaker.gregtech.oredict.bracket.CTPrefixBracketHandler;
+import mods.bio.gttweaker.gregtech.recipe.CTRecipeMaps;
+import mods.bio.gttweaker.gregtech.recipe.bracket.CTRecipeMapBracketHandler;
 
 @cpw.mods.fml.common.Mod(modid = GTTweaker.MOD_ID, name = GTTweaker.MOD_NAME, version = GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
@@ -36,7 +36,7 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		// load MineTweaker Scripts right after PreInit to have the new materials registered
 		// If you use "scripts_postPreInit" for material registration it will load first
 		mAfterPreInit.add(() -> {
-			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.POST_PREINIT.create());
+			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.AFTER_PREINIT.create());
 			MineTweakerImplementationAPI.reload();
 		});
 		// load MineTweaker Scripts right after PreInit to have the new tileentities registered
@@ -116,12 +116,6 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
-	}
-
-	@Override
-	public void onModInit2(FMLInitializationEvent aEvent) {
-		OreDictMaterial_Serializable._INITLIZE();
-
 		MineTweakerAPI.registerClass(IRecipe.class);
 		MineTweakerAPI.registerClass(IRecipeFactory.class);
 		MineTweakerAPI.registerClass(IRecipeMap.class);
@@ -133,17 +127,22 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 		MineTweakerAPI.registerClass(IMaterialData.class);
 
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
-		MineTweakerAPI.registerClass(CTUnifier.class);
+		MineTweakerAPI.registerClass(CTMaterialManager.class);
 
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
 		MineTweakerAPI.registerClass(CTIItemStackExpansion.class);
 		MineTweakerAPI.registerClass(CTILiquidStackExpansion.class);
-		MineTweakerAPI.registerClass(CTIMaterialFactoryExpansion.class);
+		MineTweakerAPI.registerClass(MaterialRegistry.class);
 
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTPrefixBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTMaterialBracketHandler());
-		}
+	}
+
+	@Override
+	public void onModInit2(FMLInitializationEvent aEvent) {
+		OreDictMaterial_Serializable._INITLIZE();
+	}
 
 	@Override
 	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {

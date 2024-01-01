@@ -12,8 +12,8 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.ICommandFunction;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
-import mods.bio.gttweaker.mods.gregtech.oredict.CTMaterialData;
+import mods.bio.gttweaker.gregtech.oredict.CTMaterialData;
+import mods.bio.gttweaker.gregtech.oredict.CTMaterialManager;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
@@ -73,7 +73,7 @@ public class GTCommand implements ICommandFunction {
 			// TODO Implement GT Hand recipe for held item
 			IItemStack item = player.getCurrentItem();
 			if (item != null) {
-				CTMaterialData data = (CTMaterialData) IMaterialData.association(item);
+				CTMaterialData data = (CTMaterialData) CTMaterialManager.association(item);
 				if(data!=null){
 				List<String> list = new ArrayList<>();
 				list.add("=============================");
@@ -159,24 +159,25 @@ public class GTCommand implements ICommandFunction {
 	private static void MAT(String[] arguments, IPlayer player) {
 		if(Objects.equals(arguments[0],"material") || Objects.equals(arguments[0],"mat")){
 			OreDictMaterial mat = null;
-			if(player.getCurrentItem() != null){
+			if (player.getCurrentItem() != null && arguments.length == 1) {
 				OreDictItemData data =
 						OreDictManager.INSTANCE.getAssociation(MineTweakerMC.getItemStack(player.getCurrentItem()),true);
 				if(data==null) player.sendChat("The Item in your hand " + player.getCurrentItem() + " dose not contain a GT Material Data.");
 				else mat = data.mMaterial.mMaterial;
-			}
-			else {
+			} else {
 				player.sendChat("No Item was found.");
 			}
 			if(arguments.length > 1){
 				String sInput = StringUtils.capitalize(arguments[1].toLowerCase());
 				if (OreDictMaterial.MATERIAL_MAP.containsKey(sInput)) {
 					mat = OreDictMaterial.MATERIAL_MAP.get(sInput);
+				} else if (StringUtils.isNumeric(sInput) && Integer.parseInt(sInput) < OreDictMaterial.MATERIAL_ARRAY.length) {
+					mat = OreDictMaterial.MATERIAL_ARRAY[Integer.parseInt(sInput)];
 				} else {
 					player.sendChat(sInput + " is not a valid material!!");
 				}
 			} else {
-				player.sendChat("Please Provide an argument for \"material\"");
+				player.sendChat("Please Provide a valid argument for \"material\"");
 				player.sendChat("-  possible arguments are: {name of any gt material}");
 				player.sendChat(" ");
 			}

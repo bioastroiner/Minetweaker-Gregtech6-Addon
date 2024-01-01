@@ -2,9 +2,8 @@ package mods.bio.gttweaker.core;
 
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMap;
+import mods.bio.gttweaker.gregtech.recipe.CTRecipe;
+import mods.bio.gttweaker.gregtech.recipe.CTRecipeMap;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
