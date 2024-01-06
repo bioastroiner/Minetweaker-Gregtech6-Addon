@@ -4,30 +4,21 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import gregapi.recipes.Recipe;
 import minetweaker.MineTweakerAPI;
 import minetweaker.MineTweakerImplementationAPI;
-import minetweaker.api.item.IIngredient;
-import minetweaker.util.IEventHandler;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterial;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialData;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IMaterialStack;
-import mods.bio.gttweaker.api.mods.gregtech.oredict.IPrefix;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipe;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeFactory;
-import mods.bio.gttweaker.api.mods.gregtech.recipe.IRecipeMap;
+import mods.bio.gttweaker.api.oredict.*;
+import mods.bio.gttweaker.api.recipe.IRecipe;
+import mods.bio.gttweaker.api.recipe.IRecipeFactory;
+import mods.bio.gttweaker.api.recipe.IRecipeMap;
 import mods.bio.gttweaker.core.command.GTCommand;
 import mods.bio.gttweaker.core.json.OreDictMaterial_Serializable;
-import mods.bio.gttweaker.mods.gregtech.oredict.*;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipe;
-import mods.bio.gttweaker.mods.gregtech.recipe.CTRecipeMaps;
-import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTMaterialBracketHandler;
-import mods.bio.gttweaker.mods.gregtech.oredict.bracket.CTPrefixBracketHandler;
-import mods.bio.gttweaker.mods.gregtech.recipe.bracket.CTRecipeMapBracketHandler;
-import mods.bio.gttweaker.mods.minetweaker.CTIItemStackExpansion;
-import mods.bio.gttweaker.mods.minetweaker.CTILiquidStackExpansion;
-import mods.bio.gttweaker.mods.minetweaker.CTIOreDictExpansion;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.oredict.OreDictionary;
-import java.util.Objects;
+import mods.bio.gttweaker.gregtech.CTIItemStackExpansion;
+import mods.bio.gttweaker.gregtech.CTILiquidStackExpansion;
+import mods.bio.gttweaker.gregtech.CTIOreDictExpansion;
+import mods.bio.gttweaker.gregtech.oredict.CTMaterialManager;
+import mods.bio.gttweaker.gregtech.oredict.MaterialRegistry;
+import mods.bio.gttweaker.gregtech.oredict.bracket.CTMaterialBracketHandler;
+import mods.bio.gttweaker.gregtech.oredict.bracket.CTPrefixBracketHandler;
+import mods.bio.gttweaker.gregtech.recipe.CTRecipeMaps;
+import mods.bio.gttweaker.gregtech.recipe.bracket.CTRecipeMapBracketHandler;
 
 @cpw.mods.fml.common.Mod(modid = GTTweaker.MOD_ID, name = GTTweaker.MOD_NAME, version = GTTweaker.VERSION)
 public final class GTTweaker extends gregapi.api.Abstract_Mod {
@@ -41,32 +32,30 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 	//@cpw.mods.fml.common.SidedProxy(modId = MOD_ID, clientSide = "gregapi.api.example.Example_Proxy_Client", serverSide = "gregapi.api.example.Example_Proxy_Server")
 	public static gregapi.api.Abstract_Proxy PROXY;
 
-	public static String FORMAT_RECIPE_MAP(Recipe.RecipeMap map){
-		String[] tmp = map.toString().split("\\.");
-		return tmp[tmp.length-1];
-	}
-
-	public static Recipe.RecipeMap FORMAT_RECIPE_MAP(String name){
-		Recipe.RecipeMap out = null;
-		if(Recipe.RecipeMap.RECIPE_MAPS.containsKey(name)){
-			out = Recipe.RecipeMap.RECIPE_MAPS.get(name);
-		}
-		if(out == null) for (Recipe.RecipeMap map: Recipe.RecipeMap.RECIPE_MAP_LIST) {
-			String[] tmp = map.toString().split("\\.");
-			String sName = tmp[tmp.length-1];
-			if(Objects.equals(sName.toLowerCase(),name.toLowerCase())){
-				out = map;
-			}
-		}
-		if(out!=null){
-			return out;
-		} else {
-			MineTweakerAPI.logError(name + " is not a valid recipemap name!");
-		}
-		return out;
-	}
-
 	public GTTweaker() {
+		// load MineTweaker Scripts right after PreInit to have the new materials registered
+		// If you use "scripts_postPreInit" for material registration it will load first
+		mAfterPreInit.add(() -> {
+			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.AFTER_PREINIT.create());
+			MineTweakerImplementationAPI.reload();
+		});
+		// load MineTweaker Scripts right after PreInit to have the new tileentities registered
+		// If you use "scripts_afterInit" for material registration it will load first
+		// this loads right after init but still during the init phase!
+		mAfterInit.add(() -> {
+			MineTweakerImplementationAPI.setScriptProvider(GregTweakerAPI.ScriptProvider.AFTER_INIT.create());
+			MineTweakerImplementationAPI.reload();
+		});
+		// MineTweaker Runtime Events
+		// this happens right before the scripts get loaded so its safe here to remove the pervios added recipes
+		MineTweakerImplementationAPI.onReloadEvent(reloadEvent-> {
+			MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
+			// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
+			Recipe.reInit();
+		});
+		MineTweakerImplementationAPI.onPostReload(reloadEvent ->  {
+			//OreDictMaterial_Serializable._INITLIZE();
+		});
 	}
 
 	@Override
@@ -127,47 +116,33 @@ public final class GTTweaker extends gregapi.api.Abstract_Mod {
 
 	@Override
 	public void onModPreInit2(cpw.mods.fml.common.event.FMLPreInitializationEvent aEvent) {
-	}
-
-	@Override
-	public void onModInit2(FMLInitializationEvent aEvent) {
-		OreDictMaterial_Serializable._INITLIZE();
-
 		MineTweakerAPI.registerClass(IRecipe.class);
 		MineTweakerAPI.registerClass(IRecipeFactory.class);
 		MineTweakerAPI.registerClass(IRecipeMap.class);
 
 		MineTweakerAPI.registerClass(IMaterial.class);
+		MineTweakerAPI.registerClass(IMaterialFactory.class);
 		MineTweakerAPI.registerClass(IMaterialStack.class);
 		MineTweakerAPI.registerClass(IPrefix.class);
 		MineTweakerAPI.registerClass(IMaterialData.class);
 
 		MineTweakerAPI.registerClass(CTRecipeMaps.class);
-		MineTweakerAPI.registerClass(CTUnifier.class);
+		MineTweakerAPI.registerClass(CTMaterialManager.class);
+
 		MineTweakerAPI.registerClass(CTIOreDictExpansion.class);
 		MineTweakerAPI.registerClass(CTIItemStackExpansion.class);
 		MineTweakerAPI.registerClass(CTILiquidStackExpansion.class);
+		MineTweakerAPI.registerClass(MaterialRegistry.class);
+
 		MineTweakerAPI.registerBracketHandler(new CTRecipeMapBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTPrefixBracketHandler());
 		MineTweakerAPI.registerBracketHandler(new CTMaterialBracketHandler());
+	}
 
-		MineTweakerImplementationAPI.onPostReload(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
-			@Override
-			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
-				//OreDictMaterial_Serializable._INITLIZE();
-			}
-		});
-
-		// this happens right before the scripts get loaded so its safe here to remove the pervios added recipes
-		MineTweakerImplementationAPI.onReloadEvent(new IEventHandler<MineTweakerImplementationAPI.ReloadEvent>() {
-			@Override
-			public void handle(MineTweakerImplementationAPI.ReloadEvent reloadEvent) {
-				MineTweakerImplementationAPI.addMineTweakerCommand("gt", GTCommand.DESCRIPTION, GTCommand.INSTANCE);
-				// TODO implement a way of reHandling gt MAT DATA during reload for removed recipe compat
-				Recipe.reInit();
-			}
-		});
-		};
+	@Override
+	public void onModInit2(FMLInitializationEvent aEvent) {
+		OreDictMaterial_Serializable._INITLIZE();
+	}
 
 	@Override
 	public void onModPostInit2(cpw.mods.fml.common.event.FMLPostInitializationEvent aEvent) {
